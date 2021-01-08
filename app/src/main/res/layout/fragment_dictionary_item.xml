@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_dictionary"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="17dp"/>
+
+    <TextView
+        android:id="@+id/dictionaryItem"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:layout_weight="1"
+        android:fontFamily="sans-serif-medium"
+        android:padding="18dp"
+        android:textSize="18sp" />
+
+</LinearLayout>

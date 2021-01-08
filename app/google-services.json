@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454453689266",
+    "project_id": "san-fabian-ff208",
+    "storage_bucket": "san-fabian-ff208.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454453689266:android:b551be01b97c06852b02ab",
+        "android_client_info": {
+          "package_name": "com.example.sanfabian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454453689266-g91q0pdq87t6mqeugfmj83a7inj9h841.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV8qPp9ymsF8QM_h8T9YM7kZXkjGAPBJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454453689266-g91q0pdq87t6mqeugfmj83a7inj9h841.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    xmlns:mapbox="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        mapbox:mapbox_cameraTargetLat = "15.92"
+        mapbox:mapbox_cameraTargetLng = "120.33"
+        mapbox:mapbox_cameraZoom= "16"
+        mapbox:mapbox_cameraTilt="40" />
+
+
+    <ImageView
+        android:id="@+id/trafficLabel"
+        android:layout_width="130dp"
+        android:layout_height="115dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/label"/>
+
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
+        android:layout_marginEnd="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:fab_expandDirection="up"
+        app:fab_labelsPosition="left"
+        mapbox:fab_labelStyle="@style/labelStyle"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/cycling_profile_button"
+        android:layout_marginTop="-150dp">
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingTraffic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:fab_icon="@drawable/traffic"
+            mapbox:fab_colorNormal="#FFF"
+            mapbox:fab_size="mini"
+            mapbox:fab_title="Show Traffic Status" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingSetCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            mapbox:fab_icon="@drawable/my_location_"
+            mapbox:fab_colorNormal="#FFF"
+            mapbox:fab_size="mini"
+            mapbox:fab_title="My Location" />
+
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+    <Button
+        android:id="@+id/driving_profile_button"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/icon_blue"
+        android:text="Driving"
+        android:layout_alignTop="@+id/startNavigating"
+        android:drawableTop="@drawable/driving"
+        android:layout_alignParentStart="true"
+        android:padding="8dp"
+        android:textAllCaps="false"
+        android:textStyle="normal"
+        android:layout_marginTop="-110dp"
+        android:layout_marginLeft="30dp"/>
+
+    <Button
+        android:id="@+id/walking_profile_button"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/icon_blue"
+        android:padding="8dp"
+        android:textAllCaps="false"
+        android:text="Walking"
+        android:drawableTop="@drawable/walking"
+        android:textStyle="normal"
+        android:layout_alignTop="@+id/startNavigating"
+        android:layout_marginTop="-110dp"
+        android:layout_marginLeft="120dp"/>
+
+    <Button
+        android:id="@+id/cycling_profile_button"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/icon_blue"
+        android:padding="8dp"
+        android:textAllCaps="false"
+        android:textStyle="normal"
+        android:drawableTop="@drawable/cycling"
+        android:text="Biking"
+        android:layout_alignTop="@+id/startNavigating"
+        android:layout_marginTop="-110dp"
+        android:layout_marginLeft="210dp"/>
+
+
+    <Button
+        android:id="@+id/startNavigating"
+        android:text="Start Navigating"
+        android:textSize="17dp"
+        android:backgroundTint="@color/icon_blue"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="access_token">pk.eyJ1IjoiYmluc3UiLCJhIjoiY2tqajRvdHdnMXJuZzJ0cDg3Y2g3bG83dyJ9.JAkGzQg9i2P5-pHya_gYCw</string>
+    <string name="app_name">San Fabian</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="search">Search</string>
+    <string name="developers">&lt;Developers Profile&gt;</string>
+    <string name="copyright">© 2020 San Fabian App</string>
+
+</resources>
