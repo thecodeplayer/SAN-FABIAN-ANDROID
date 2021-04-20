@@ -15,4 +15,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="CustomRatingBarStyle" parent="Widget.AppCompat.RatingBar">
+        <item name="android:progressDrawable">@drawable/heart_rating</item>
+        <item name="android:minHeight">30dip</item>
+        <item name="android:maxHeight">60dip</item>
+    </style>
 </resources>

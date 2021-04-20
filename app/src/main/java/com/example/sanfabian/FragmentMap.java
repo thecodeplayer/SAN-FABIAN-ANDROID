@@ -209,6 +209,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         drivingButton.setVisibility(View.INVISIBLE);
         walkingButton.setVisibility(View.INVISIBLE);
         cyclingButton.setVisibility(View.INVISIBLE);
+        floatingRemoveMarker.setEnabled(false);
 
         imageView.setVisibility(View.INVISIBLE);
         startNavigating.setEnabled(false);
@@ -250,6 +251,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                 drivingButton.setVisibility(View.INVISIBLE);
                 walkingButton.setVisibility(View.INVISIBLE);
                 cyclingButton.setVisibility(View.INVISIBLE);
+                floatingRemoveMarker.setEnabled(false);
             }
         });
 
@@ -682,6 +684,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                     drivingButton.setVisibility(View.VISIBLE);
                     walkingButton.setVisibility(View.VISIBLE);
                     cyclingButton.setVisibility(View.VISIBLE);
+                    floatingRemoveMarker.setEnabled(true);
                 }
             }
         }
@@ -867,6 +870,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         drivingButton.setVisibility(View.VISIBLE);
         walkingButton.setVisibility(View.VISIBLE);
         cyclingButton.setVisibility(View.VISIBLE);
+        floatingRemoveMarker.setEnabled(true);
         return true;
     }
 

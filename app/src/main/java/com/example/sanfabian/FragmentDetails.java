@@ -5,11 +5,14 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.solver.widgets.Helper;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.internal.ParcelableSparseArray;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -49,13 +53,17 @@ import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
 import com.mapbox.mapboxsdk.plugins.traffic.TrafficPlugin;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import Models.RecyclerViewDataModel;
 import Utilities.HelperClass;
+import WhatToDo.FragmentGasStation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -77,23 +85,22 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
-    TextView title, description, distance;
+    TextView title, description, rate, rating, nRate;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
-    // latOrigin at lngOrig
+    ImageView _firstPhoto, _secondPhoto, _thirdPhoto;
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
-
-    //Bago
+    private RatingBar ratingBar;
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
-    //Bago
-
-    LatLng sample;
+    private LatLng sample;
+    private String _imageurl, _title, _collection, _id, _description, _photo1, _photo2, _photo3, collectionName, documentID;
+    Double _rating, _nrate, _fnate;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,16 +120,49 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         details = inflater.inflate(R.layout.details_layout, container, false);
 
         title = details.findViewById(R.id.title);
+        rate = details.findViewById(R.id._rate);
         description = details.findViewById(R.id.description);
         getDirection = details.findViewById(R.id.buttonGetDirection);
-        distance = details.findViewById(R.id.distance);
+        ratingBar = details.findViewById(R.id.rating_bar);
+        rating = details.findViewById(R.id.rating);
+        nRate = details.findViewById(R.id._nRate);
+        _firstPhoto = details.findViewById(R.id.first_photo);
+        _secondPhoto = details.findViewById(R.id.second_photo);
+        _thirdPhoto = details.findViewById(R.id.third_photo);
+
         Bundle bundle = this.getArguments();
-        String _title = bundle.getString("TITLE");
-        String _description = bundle.getString("DESCRIPTION");
+        _imageurl = bundle.getString("IMAGEURL");
+        _title = bundle.getString("TITLE");
+        _collection = bundle.getString("COLLECTION");
+        _id = bundle.getString("ID");
+        _description = bundle.getString("DESCRIPTION");
+        _rating = bundle.getDouble("RATING");
+        _nrate = bundle.getDouble("NRATE");
+        _fnate = bundle.getDouble("FRATING");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
+        _photo1 = bundle.getString("PHOTO1");
+        _photo2 = bundle.getString("PHOTO2");
+        _photo3 = bundle.getString("PHOTO3");
+//        String[] _photos = bundle.getStringArray("PHOTOS");
+//        System.out.println("Photos" + _photos);
+
+        String final_rating = String.format("%.1f", _fnate);
+        Double finalRating = _rating / _nrate;
+        Float _finalRating = finalRating.floatValue();
+        rating.setText(final_rating);
+        ratingBar.setRating(_finalRating);
+        ratingBar.setIsIndicator(true);
+
+        Picasso.get().load(_photo1).into(_firstPhoto);
+        Picasso.get().load(_photo2).into(_secondPhoto);
+        Picasso.get().load(_photo3).into(_thirdPhoto);
+
         title.setText(_title);
         description.setText(_description);
+        int noRating = _nrate.intValue();
+        nRate.setText("(" + noRating + " Ratings)");
+
 
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
@@ -131,7 +171,27 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
+        rate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+
         return details;
+    }
+
+    public void openDialog() {
+        collectionName = _collection;
+        documentID = _id;
+
+        Bundle bundle = new Bundle();
+        bundle.putString("COLLECTION", collectionName);
+        bundle.putString("ID", documentID);
+
+        RatingDialog rating = new RatingDialog();
+        rating.setArguments(bundle);
+        rating.show(getFragmentManager(), "Rating Dialog");
     }
 
     @Override

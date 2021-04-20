@@ -1,4 +1,4 @@
-package WhatExcitesYou;
+package WhatToDo;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -36,15 +36,9 @@ import java.util.Locale;
 import Adapters.SliderAdapter;
 import Models.SliderItem;
 import Utilities.HelperClass;
-import WhatExcitesYou.FragmentBanks;
-import WhatExcitesYou.FragmentFoodandDining;
-import WhatExcitesYou.FragmentOutdoorsandActivities;
-import WhatExcitesYou.FragmentRelaxation;
-import WhatExcitesYou.FragmentStaycations;
-import WhatExcitesYou.FragmentTransport;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-public class FragmentWhatExcitesYou extends Fragment{
+public class FragmentWhatToDo extends Fragment{
 
     private Context mContext;
     private SliderAdapter adapter;
@@ -60,8 +54,7 @@ public class FragmentWhatExcitesYou extends Fragment{
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_what_excites_you, container, false);
-
+        return inflater.inflate(R.layout.fragment_what_to_do, container, false);
     }
 
     @Override
@@ -101,6 +94,8 @@ public class FragmentWhatExcitesYou extends Fragment{
         CardView outdoors_and_activities = view.findViewById(R.id.outdoors_and_activities);
         CardView banks = view.findViewById(R.id.banks);
         CardView relaxation = view.findViewById(R.id.relaxation);
+        CardView gas = view.findViewById(R.id.gas_station);
+        CardView market = view.findViewById(R.id.marketplace);
 
         food_and_dining.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +133,20 @@ public class FragmentWhatExcitesYou extends Fragment{
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.container, new FragmentRelaxation()).addToBackStack(null).commit();
+            }
+        });
+
+        gas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentGasStation()).addToBackStack(null).commit();
+            }
+        });
+
+        market.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentMarket()).addToBackStack(null).commit();
             }
         });
 

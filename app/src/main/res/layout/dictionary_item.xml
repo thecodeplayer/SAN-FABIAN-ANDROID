@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:padding="8dp"
     android:clickable="true"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:background="@android:color/transparent">
+    android:foreground="?android:attr/selectableItemBackground"    android:background="@android:color/transparent">
 
 
     <TextView
@@ -18,7 +17,8 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif"
         android:padding="5dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
 
     <ImageView
         android:layout_width="15dp"

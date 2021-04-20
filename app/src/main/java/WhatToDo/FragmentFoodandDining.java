@@ -1,4 +1,4 @@
-package WhatExcitesYou;
+package WhatToDo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,9 +21,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
+
+import static java.lang.Float.isNaN;
 
 public class FragmentFoodandDining extends Fragment implements FirestoreViewPagerInterface {
 
@@ -32,7 +39,6 @@ public class FragmentFoodandDining extends Fragment implements FirestoreViewPage
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private View food_and_dining_items;
-//    ArrayList<RecyclerViewDataModel> dataholder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,15 +83,38 @@ public class FragmentFoodandDining extends Fragment implements FirestoreViewPage
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
         String description = snapshot.getString("description");
+        String collection = "Food and Dining";
+        String id = snapshot.getId();
+        Double rating = snapshot.getDouble("rating");
+        Double nrate = snapshot.getDouble("nrate");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
+        ArrayList<String> photos = (ArrayList<String>) snapshot.get("photos");
+        String photo1 = photos.get(0);
+        String photo2 = photos.get(1);
+        String photo3 = photos.get(2);
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
+        double finalRating = rating / nrate;
+        if (isNaN((float) finalRating)) finalRating = 0.0;
+
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
+        bundle.putString("ID", id);
+        bundle.putString("COLLECTION", collection);
         bundle.putString("DESCRIPTION", description);
+        bundle.putDouble("RATING", rating);
+        bundle.putDouble("NRATE", nrate);
+        bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
+        bundle.putString("PHOTO1", photo1);
+        bundle.putString("PHOTO2", photo2);
+        bundle.putString("PHOTO3", photo3);
+//        bundle.putStringArrayList("PHOT0S", photos);
+
+        System.out.println("Photos" + photos);
+
         FragmentDetails details = new FragmentDetails();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();

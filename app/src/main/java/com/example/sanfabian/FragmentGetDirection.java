@@ -95,7 +95,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
 
-
     private Context mContext;
     private MapView mapView;
     private MapboxMap map;
@@ -111,8 +110,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private Bundle bundle;
     private String profile;
-
-
 
     private LocationEngine locationEngine;
     private CarmenFeature home;

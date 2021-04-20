@@ -1,4 +1,4 @@
-package WhatExcitesYou;
+package WhatToDo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sanfabian.FragmentDetails;
+import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,13 +28,14 @@ import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
 
+import static java.lang.Float.isNaN;
+
 public class FragmentTransport extends Fragment implements FirestoreViewPagerInterface {
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private View transport_items;
-//    ArrayList<RecyclerViewDataModel> dataholder;
     private FirestoreAdapter adapter;
 
     @Override
@@ -72,17 +74,38 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
+        String imgUrl = snapshot.getString("imageUrl");
         String description = snapshot.getString("description");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
+        String collection = "Transport";
+        String id = snapshot.getId();
+        Double rating = snapshot.getDouble("rating");
+        Double nrate = snapshot.getDouble("nrate");
+//        ArrayList<String> photos = (ArrayList<String>) snapshot.get("photos");
+//        String photo1 = photos.get(0);
+//        String photo2 = photos.get(1);
+//        String photo3 = photos.get(2);
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
+        double finalRating = rating / nrate;
+        if (isNaN((float) finalRating)) finalRating = 0.0;
+
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
+        bundle.putString("IMAGEURL", imgUrl);
         bundle.putString("DESCRIPTION", description);
+        bundle.putString("ID", id);
+        bundle.putString("COLLECTION", collection);
+        bundle.putDouble("RATING", rating);
+        bundle.putDouble("NRATE", nrate);
+        bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-        FragmentDetails details = new FragmentDetails();
+//        bundle.putString("PHOTO1", photo1);
+//        bundle.putString("PHOTO2", photo2);
+//        bundle.putString("PHOTO3", photo3);
+        FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
 
@@ -99,14 +122,4 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
         adapter.stopListening();
     }
 
-//    dataholder = new ArrayList<>();
-//    RecyclerViewDataModel item1 = new RecyclerViewDataModel(R.drawable.cisco, "Luzon Cisco Transport\n Inc. Bus Terminal", "San Fabian, Pangasinan", 16.12982234480173, 120.40866162631501, "This simply known as Cisco Bus is a provincial bus company in the Philippines. It is first provincial terminal here at San Fabian, Pangasinan.");
-//        dataholder.add(item1);
-//    RecyclerViewDataModel san_fernando_dagupan = new RecyclerViewDataModel(R.drawable.san_fernando_dagupan_minibus, "San Fernando - Dagupan\n Minibus", "Pangasinan-La Union Rd, San Fabian, Pangasinan", 16.121125534030394, 120.4019819532201, "An ordinary and air-conditioned minibus that travels from San Fernando, La Union to Dagupan City and vice versa. Waiting area is in front of the town’s church.");
-//        dataholder.add(san_fernando_dagupan);
-//    RecyclerViewDataModel san_fabian_dagupan = new RecyclerViewDataModel(R.drawable.san_fabian_dagupan_jeep, "San Fabian - Dagupan\n Jeepney", "Braganza, San Fabian, Pangasinan", 16.120272994739338, 120.40181058880184, "");
-//        dataholder.add(san_fabian_dagupan);
-//
-//        recyclerView.setAdapter(new WhatExcitesYouItemRecyclerViewAdapter(dataholder, this));
-//
 }

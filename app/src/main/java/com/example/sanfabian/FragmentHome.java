@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import Categories.FragmentCategories;
-import WhatExcitesYou.FragmentWhatExcitesYou;
+import WhatToDo.FragmentWhatToDo;
 
 public class FragmentHome extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -30,8 +30,8 @@ public class FragmentHome extends Fragment implements BottomNavigationView.OnNav
         super.onViewCreated(view, savedInstanceState);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        getFragmentManager().beginTransaction().replace(R.id.container, new FragmentWhatExcitesYou()).commit();
-        bottomNavigationView.setSelectedItemId(R.id.nav_what_excites_you);
+        getFragmentManager().beginTransaction().replace(R.id.container, new FragmentWhatToDo()).commit();
+        bottomNavigationView.setSelectedItemId(R.id.nav_what_to_do);
 
     }
 
@@ -39,8 +39,8 @@ public class FragmentHome extends Fragment implements BottomNavigationView.OnNav
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         Fragment selectFragment = null;
         switch (item.getItemId()){
-            case R.id.nav_what_excites_you:
-                selectFragment = new FragmentWhatExcitesYou();
+            case R.id.nav_what_to_do:
+                selectFragment = new FragmentWhatToDo();
                 break;
             case R.id.nav_categories:
                 selectFragment = new FragmentCategories();

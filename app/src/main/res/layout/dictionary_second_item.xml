@@ -21,14 +21,16 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/roboto_medium"
             android:text="English Phrase:"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/englishPhrase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
     <LinearLayout
@@ -42,14 +44,16 @@
             android:layout_marginStart="20dp"
             android:fontFamily="@font/roboto_medium"
             android:text="Pangasinan Phrase:"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
 
         <TextView
             android:id="@+id/pangasinanPhrase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:textColor="@color/black"/>
     </LinearLayout>
 
 

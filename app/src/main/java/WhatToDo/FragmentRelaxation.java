@@ -1,4 +1,4 @@
-package WhatExcitesYou;
+package WhatToDo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,14 +27,16 @@ import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
 
+import static java.lang.Float.isNaN;
 
-public class FragmentBanks extends Fragment implements FirestoreViewPagerInterface {
+public class FragmentRelaxation extends Fragment implements FirestoreViewPagerInterface {
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<RecyclerViewDataModel> dataholder;
-    private View banks_items;
+    private View relaxation_items;
+    private LayoutInflater layoutInflater;
     private FirestoreAdapter adapter;
 
     @Override
@@ -45,14 +47,12 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        banks_items = inflater.inflate(R.layout.fragment_banks, container, false);
-        recyclerView = banks_items.findViewById(R.id.recyclerViewBanks);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-
+        relaxation_items = inflater.inflate(R.layout.fragment_relaxation, container, false);
+        recyclerView = relaxation_items.findViewById(R.id.recyclerViewRelaxation);
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        Query query = firebaseFirestore.collection("Banks");
+        Query query = firebaseFirestore.collection("Relaxation");
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(2)
@@ -70,22 +70,42 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        return banks_items;
+        return relaxation_items;
     }
+
 
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
+        String collection = "Relaxation";
+        String id = snapshot.getId();
         String description = snapshot.getString("description");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
+        Double rating = snapshot.getDouble("rating");
+        Double nrate = snapshot.getDouble("nrate");
+        ArrayList<String> photos = (ArrayList<String>) snapshot.get("photos");
+        String photo1 = photos.get(0);
+        String photo2 = photos.get(1);
+        String photo3 = photos.get(2);
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
+
+        double finalRating = rating / nrate;
+        if (isNaN((float) finalRating)) finalRating = 0.0;
 
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
         bundle.putString("DESCRIPTION", description);
+        bundle.putString("ID", id);
+        bundle.putString("COLLECTION", collection);
+        bundle.putDouble("RATING", rating);
+        bundle.putDouble("NRATE", nrate);
+        bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
+        bundle.putString("PHOTO1", photo1);
+        bundle.putString("PHOTO2", photo2);
+        bundle.putString("PHOTO3", photo3);
         FragmentDetails details = new FragmentDetails();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
@@ -102,21 +122,4 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
         super.onStop();
         adapter.stopListening();
     }
-
-//    layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//    dataholder = new ArrayList<>();
-//    RecyclerViewDataModel bpi_san_san_fabian = new RecyclerViewDataModel(R.drawable.bpi_san_fabian, "BPI LDP Farms ATM", "Main Gate LDP Multifoods Corp., National Road, Brgy, San Fabian, Pangasinan", 16.15351717829747, 120.42454628398845, "");
-//        dataholder.add(bpi_san_san_fabian);
-//    RecyclerViewDataModel card_sme_bank = new RecyclerViewDataModel(R.drawable.sme_logo, "Card Sme Bank", "Sison, San Fabian, Pangasinan", 16.15351717829747, 120.42454628398845, "");
-//        dataholder.add(card_sme_bank);
-//    RecyclerViewDataModel producers_bank_san_fabian = new RecyclerViewDataModel(R.drawable.producers_bank_san_fabian, "Producers Bank", "Rizal St, San Fabian, Pangasinan", 16.12078135609204, 120.40438555329519, "");
-//        dataholder.add(producers_bank_san_fabian);
-//    RecyclerViewDataModel rural_bank_of_rosario = new RecyclerViewDataModel(R.drawable.rural_bank, "Rural Bank of Rosario", "Rizal St, San Fabian, Pangasinan", 16.12045153303307, 120.40384911146438, "");
-//        dataholder.add(rural_bank_of_rosario);
-//    RecyclerViewDataModel rural_bank_san_fabian = new RecyclerViewDataModel(R.drawable.rural_bank_san_fabian, "Rural Bank of San Fabian\n Inc.", "35 Rizal St, San Fabian, 2433 Pangasinan", 16.120757128221967, 120.40446908213173, "");
-//        dataholder.add(rural_bank_san_fabian);
-//
-//        recyclerView.setAdapter(new WhatExcitesYouItemRecyclerViewAdapter(dataholder, this));
 }

@@ -1,12 +1,22 @@
+
 package com.example.sanfabian;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -18,10 +28,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.mapbox.mapboxsdk.style.layers.Property;
 
 import java.util.ArrayList;
 
 import Adapters.FirestoreAdapter;
+import Adapters.HotlineAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
 
@@ -33,6 +45,15 @@ public class FragmentHotlines extends Fragment implements FirestoreViewPagerInte
     private View hotline_items;
     ArrayList<RecyclerViewDataModel> dataholder;
     private FirestoreAdapter adapter;
+    private Context context;
+    private static final int REQUEST_CALL = 1;
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +61,7 @@ public class FragmentHotlines extends Fragment implements FirestoreViewPagerInte
     }
 
     @Nullable
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         hotline_items = inflater.inflate(R.layout.fragment_hotlines, container, false);
@@ -72,7 +94,7 @@ public class FragmentHotlines extends Fragment implements FirestoreViewPagerInte
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
         String img = snapshot.getString("imageUrl");
-        System.out.println(img);
+        String number = snapshot.getString("subtitle");
         String description = snapshot.getString("description");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
         double lat = geoPoint.getLatitude();
@@ -81,9 +103,10 @@ public class FragmentHotlines extends Fragment implements FirestoreViewPagerInte
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
         bundle.putString("DESCRIPTION", description);
+        bundle.putString("NUMBER", number);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-        FragmentDetails details = new FragmentDetails();
+        FragmentDetails3 details = new FragmentDetails3();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, details).addToBackStack(null).commit();
     }
@@ -99,6 +122,7 @@ public class FragmentHotlines extends Fragment implements FirestoreViewPagerInte
         super.onStop();
         adapter.stopListening();
     }
+
 
     //        dataholder = new ArrayList<>();
 //        RecyclerViewDataModel ambulance = new RecyclerViewDataModel(R.drawable.ambulance, "Ambulance", "0918-331-2065", 16.12085704080993, 120.40247056478772, "");

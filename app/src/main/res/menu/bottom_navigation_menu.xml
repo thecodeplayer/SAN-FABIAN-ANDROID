@@ -2,9 +2,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_what_excites_you"
+        android:id="@+id/nav_what_to_do"
         android:icon="@drawable/ic_location"
-        android:title="What Excites You"
+        android:title="What To Do"
         android:checkable="true"/>
     <item
         android:id="@+id/nav_categories"

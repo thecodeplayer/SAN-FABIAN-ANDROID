@@ -1,9 +1,10 @@
-package WhatExcitesYou;
+package WhatToDo;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sanfabian.FragmentDetails;
+import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,17 +29,20 @@ import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
 
-public class FragmentRelaxation extends Fragment implements FirestoreViewPagerInterface {
+import static java.lang.Float.isNaN;
+
+public class FragmentMarket extends Fragment implements FirestoreViewPagerInterface, AdapterView.OnItemSelectedListener{
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     ArrayList<RecyclerViewDataModel> dataholder;
-    private View relaxation_items;
+    private View market;
     private LayoutInflater layoutInflater;
     private FirestoreAdapter adapter;
 
     @Override
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -45,12 +50,12 @@ public class FragmentRelaxation extends Fragment implements FirestoreViewPagerIn
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        relaxation_items = inflater.inflate(R.layout.fragment_relaxation, container, false);
-        recyclerView = relaxation_items.findViewById(R.id.recyclerViewRelaxation);
+        market = inflater.inflate(R.layout.fragment_market, container, false);
+        recyclerView = market.findViewById(R.id.recyclerViewRelaxation);
         firebaseFirestore = FirebaseFirestore.getInstance();
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-        Query query = firebaseFirestore.collection("Relaxation");
+        Query query = firebaseFirestore.collection("Market");
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setInitialLoadSizeHint(2)
@@ -68,26 +73,38 @@ public class FragmentRelaxation extends Fragment implements FirestoreViewPagerIn
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        return relaxation_items;
+        return market;
     }
 
 
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
-        String img = snapshot.getString("imageUrl");
-        System.out.println(img);
+        String imgUrl = snapshot.getString("imageUrl");
+        String collection = "Market";
+        String id = snapshot.getId();
         String description = snapshot.getString("description");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
+        Double rating = snapshot.getDouble("rating");
+        Double nrate = snapshot.getDouble("nrate");
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
+        double finalRating = rating / nrate;
+        if (isNaN((float) finalRating)) finalRating = 0.0;
+
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
+        bundle.putString("IMAGEURL", imgUrl);
         bundle.putString("DESCRIPTION", description);
+        bundle.putString("ID", id);
+        bundle.putString("COLLECTION", collection);
+        bundle.putDouble("RATING", rating);
+        bundle.putDouble("NRATE", nrate);
+        bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-        FragmentDetails details = new FragmentDetails();
+        FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
     }
@@ -103,16 +120,14 @@ public class FragmentRelaxation extends Fragment implements FirestoreViewPagerIn
         super.onStop();
         adapter.stopListening();
     }
-}
 
-//
-//        dataholder = new ArrayList<>();
-//        RecyclerViewDataModel impression_spa_san_fabian = new RecyclerViewDataModel(R.drawable.impression_spa_san_fabian, "Impression Spa - San\n Fabian", "San Fabian, Pangasinan", 16.12520206406347, 120.40503554166139, "A spa that uses diverse manual techniques of touch, stroking to muscles and soft tissue to achieve relaxation and improve the client's well being. It offers different treatment rooms for massage and skincare service, a little restaurant, and accepts home service. For more information you can visit their official Facebook Page.\n" +
-//                "Facebook Page Name: Impression Spa at San Fabian Pangasinan\n" +
-//                "Link: https://facebook.com/impressionSpa/");
-//        dataholder.add(impression_spa_san_fabian);
-//        RecyclerViewDataModel essential_wellness_center = new RecyclerViewDataModel(R.drawable.essential_wellness_center_san_fabian, "Essential Wellness Center", "San Fabian, 2433 Pangasinan", 16.12845349913594, 120.40754398213193, "It is a place with different treatment rooms that offers different massage services, myotherapy, steam sauna, different acupuncture and detoxification services. You can visit their official Facebook Page for more info.\n" +
-//                "Facebook Page Name: Essential wellness center\n" +
-//                "Link: https://facebook.com/Essential-wellness-center-112951970288528/");
-//        dataholder.add(essential_wellness_center);
-//
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}
