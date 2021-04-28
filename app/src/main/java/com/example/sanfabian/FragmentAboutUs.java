@@ -49,6 +49,7 @@ public class FragmentAboutUs extends Fragment {
                         "https://www.facebook.com/rfarmwellness/\n" +
                         "https://www.facebook.com/San-Fabian-PTA-Beach-Resort-168132086875123/\n" +
                         "https://facebook.com/impressionSpa/" +
+                        "https://www.facebook.com/PangasinanLakwatsero" +
                 "https://facebook.com/Essential-wellness-center-112951970288528/");
 
         website_credits.setText(
@@ -62,6 +63,10 @@ public class FragmentAboutUs extends Fragment {
                 "https://www.up.edu.ph/is-this-man-the-father-of-up/\n" +
                 "https://www.abebooks.com/9789718820001/Ferdinand-E-Marcos-Malacan%CC%83ang-Makiki-9718820000/plp\n" +
                 "http://angbuhaysaearth.blogspot.com/2016/07/bb-pilipinas-candidates-in-miss.html\n" +
+                        "https://commons.wikimedia.org/wiki/File:6908Poblacion,_San_Fabian,_Pangasinan_24.jpg" +
+                        "https://en.wikipedia.org/wiki/Perfecto_V._Fernandez" +
+                        "http://www.bantayog.org/galacae-arthur-erfe/galace-arthur-pic1/" +
+                        "https://thepangasinannomad.wordpress.com/2019/07/25/hobbit-farmville-san-fabian-pangasinan/" +
                 "blogspot.com\n" +
                 "angsarap.net\n" +
                 "philatlas.com\n");

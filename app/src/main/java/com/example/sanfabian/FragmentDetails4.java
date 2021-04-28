@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.codesgood.views.JustifiedTextView;
 import com.mapbox.api.directions.v5.MapboxDirections;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +22,8 @@ public class FragmentDetails4 extends Fragment  {
     private Context mContext;
     private View details;
     private MapboxDirections client;
-    TextView title, description;
+    TextView title;
+    JustifiedTextView description;
     ImageView details_photo;
 
     @Override

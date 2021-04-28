@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.solver.widgets.Helper;
 import androidx.fragment.app.Fragment;
 
+import com.codesgood.views.JustifiedTextView;
 import com.google.android.material.internal.ParcelableSparseArray;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
@@ -85,7 +86,8 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
-    TextView title, description, rate, rating, nRate;
+    TextView title, rate, rating, nRate;
+    JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
     ImageView _firstPhoto, _secondPhoto, _thirdPhoto;

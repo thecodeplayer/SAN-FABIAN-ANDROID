@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.codesgood.views.JustifiedTextView;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -74,14 +75,15 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
-    TextView title, description, rate, rating, nRate, hotline;
-    ImageView barangay_photo;
+    TextView title, rate, rating, nRate, hotline, attraction_name1, attraction_name2, attraction_name3, product_name1, product_name2, product_name3;
+    JustifiedTextView description;
+    ImageView barangay_photo, attraction_photo1, attraction_photo2, attraction_photo3, product_photo1, product_photo2, product_photo3;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
     // latOrigin at lngOrig
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
-    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _hotline;
+    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _hotline, _attraction1, _attraction2, _attraction3,_product1, _product2, _product3, _attractionname1, _attractionname2, _attractionname3, _productname1, _productname2, _productname3;
     Double _rating, _nrate, _fnate;
 
     private RatingBar ratingBar;
@@ -123,6 +125,19 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         ratingBar = details.findViewById(R.id.rating_bar);
         rating = details.findViewById(R.id.rating);
         barangay_photo = details.findViewById(R.id.barangay_photo);
+        attraction_photo1 = details.findViewById(R.id.attraction_photo1);
+        attraction_photo2 = details.findViewById(R.id.attraction_photo2);
+        attraction_photo3 = details.findViewById(R.id.attraction_photo3);
+        product_photo1 = details.findViewById(R.id.product_photo1);
+        product_photo2 = details.findViewById(R.id.product_photo2);
+        product_photo3 = details.findViewById(R.id.product_photo3);
+        attraction_name1 = details.findViewById(R.id.attraction_name1);
+        attraction_name2 = details.findViewById(R.id.attraction_name2);
+        attraction_name3 = details.findViewById(R.id.attraction_name3);
+        product_name1 = details.findViewById(R.id.product_name1);
+        product_name2 = details.findViewById(R.id.product_name2);
+        product_name3 = details.findViewById(R.id.product_name3);
+
 
         Bundle bundle = this.getArguments();
         _title = bundle.getString("TITLE");
@@ -136,6 +151,18 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         _fnate = bundle.getDouble("FRATING");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
+        _attraction1 = bundle.getString("ATTRACTION1");
+        _attraction2 = bundle.getString("ATTRACTION2");
+        _attraction3 = bundle.getString("ATTRACTION3");
+        _product1 = bundle.getString("PRODUCT1");
+        _product2 = bundle.getString("PRODUCT2");
+        _product3 = bundle.getString("PRODUCT3");
+        _attractionname1 = bundle.getString("ATTRACTION_NAME1");
+        _attractionname2 = bundle.getString("ATTRACTION_NAME2");
+        _attractionname3 = bundle.getString("ATTRACTION_NAME3");
+        _productname1 = bundle.getString("PRODUCT_NAME1");
+        _productname2 = bundle.getString("PRODUCT_NAME2");
+        _productname3 = bundle.getString("PRODUCT_NAME3");
 
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
@@ -143,6 +170,22 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         rating.setText(final_rating);
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
+
+        Picasso.get().load(_attraction1).into(attraction_photo1);
+        Picasso.get().load(_attraction2).into(attraction_photo2);
+        Picasso.get().load(_attraction3).into(attraction_photo3);
+        Picasso.get().load(_product1).into(product_photo1);
+        Picasso.get().load(_product2).into(product_photo2);
+        Picasso.get().load(_product3).into(product_photo3);
+
+        attraction_name1.setText(_attractionname1);
+        attraction_name2.setText(_attractionname2);
+        attraction_name3.setText(_attractionname3);
+        product_name1.setText(_productname1);
+        product_name2.setText(_productname2);
+        product_name3.setText(_productname3);
+
+
 
         title.setText(_title);
         description.setText(_description);

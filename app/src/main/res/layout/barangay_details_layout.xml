@@ -198,10 +198,52 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:id="@+id/attraction_photo"
+                            android:id="@+id/attraction_photo1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp" />
+
+                        <TextView
+                            android:id="@+id/attraction_name1"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:id="@+id/attraction_photo2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp" />
+
+                        <TextView
+                            android:id="@+id/attraction_name2"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
+                        <ImageView
+                            android:id="@+id/attraction_photo3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp" />
+
+                        <TextView
+                            android:id="@+id/attraction_name3"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -229,22 +271,52 @@
 
 
                         <ImageView
-                            android:id="@+id/first_photo"
+                            android:id="@+id/product_photo1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp" />
 
+                        <TextView
+                            android:id="@+id/product_name1"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
                         <ImageView
-                            android:id="@+id/second_photo"
+                            android:id="@+id/product_photo2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp" />
 
+                        <TextView
+                            android:id="@+id/product_name2"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
+
                         <ImageView
-                            android:id="@+id/third_photo"
+                            android:id="@+id/product_photo3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp" />
+
+                        <TextView
+                            android:id="@+id/product_name3"
+                            android:layout_width="match_parent"
+                            android:gravity="center"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"/>
 
                     </LinearLayout>
                 </LinearLayout>

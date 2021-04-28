@@ -44,6 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:layout_marginTop="20dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -61,28 +62,26 @@
                         android:textSize="20sp"
                         android:textColor="@color/black"/>
 
-
                 </LinearLayout>
 
-
                 <Button
-                    android:background="@color/icon_blue"
+                    android:backgroundTint="@color/icon_blue"
                     android:id="@+id/call"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="Call"
                     android:textSize="15sp" />
 
                 <Button
-                    android:background="@color/icon_blue"
+                    android:backgroundTint="@color/icon_blue"
                     android:id="@+id/buttonGetDirection"
                     android:layout_width="350dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center"
                     android:text="Get Direction"
                     android:textSize="15sp" />

@@ -25,6 +25,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.codesgood.views.JustifiedTextView;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -80,7 +81,8 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
-    TextView title, description, rate, rating;
+    TextView title, rate, rating;
+    JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection, call;
     // latOrigin at lngOrig
@@ -121,7 +123,6 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
 
         title = details.findViewById(R.id.title);
         rate = details.findViewById(R.id._rate);
-        description = details.findViewById(R.id.description);
         getDirection = details.findViewById(R.id.buttonGetDirection);
         call = details.findViewById(R.id.call);
 
@@ -137,8 +138,6 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
 
 
         title.setText(_title);
-        description.setText(_description);
-
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
 

@@ -46,9 +46,14 @@ public class RatingDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Double rate = Double.valueOf(ratingBar.getRating());
-                        DocumentReference toRate = firebaseFirestore.collection(collectionName).document(collectionID);
-                        toRate.update("rating", FieldValue.increment(rate));
-                        toRate.update("nrate", FieldValue.increment(1));
+                        if (rate == 0.0){
+                            
+                        }
+                        else {
+                            DocumentReference toRate = firebaseFirestore.collection(collectionName).document(collectionID);
+                            toRate.update("rating", FieldValue.increment(rate));
+                            toRate.update("nrate", FieldValue.increment(1));
+                        }
                     }
                 });
 

@@ -7,8 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <com.mapbox.mapboxsdk.maps.MapView
         android:id="@+id/mapview"
         android:layout_width="match_parent"
@@ -31,11 +29,12 @@
         mapbox:startIconDrawable="@drawable/ic_baseline_search_24"
         mapbox:endIconMode="clear_text"
         android:layout_alignParentLeft="true">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/searchBar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"/>
+            android:layout_height="60dp"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -66,8 +65,8 @@
             mapbox:fab_colorNormal="#FFF"
             mapbox:fab_icon="@drawable/remove"
             mapbox:fab_size="mini"
-            mapbox:fab_title="Remove Marker"
-            />
+            mapbox:fab_title="Remove Marker" />
+
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingTraffic"
             android:layout_width="wrap_content"
@@ -85,7 +84,6 @@
             mapbox:fab_colorNormal="#FFF"
             mapbox:fab_size="mini"
             mapbox:fab_title="My Location" />
-
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 
