@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,12 +7,11 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/dictionary_background"
         android:layout_width="match_parent"
-        android:layout_height="98dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/dictionary_header1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_alignParentTop="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,19 +19,18 @@
         android:orientation="vertical"
         android:layout_marginTop="25dp"
         android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_alignTop="@+id/dictionary_background"
+        android:layout_alignParentBottom="true">
 
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
-            android:layout_height="65dp"
+            android:layout_height="wrap_content"
             app:cardUseCompatPadding="true"
             app:cardCornerRadius="20dp">
 
             <SearchView
                 android:id="@+id/searchView"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:iconifiedByDefault="false"
                 android:queryHint="@string/search"
@@ -48,4 +46,4 @@
             android:layout_marginTop="15dp" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

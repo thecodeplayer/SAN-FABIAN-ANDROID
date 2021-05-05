@@ -21,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.loader.content.AsyncTaskLoader;
 
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -65,6 +66,8 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.mapbox.navigation.core.MapboxNavigation;
 import com.mapbox.navigation.ui.internal.NavigationContract;
+
+import org.jetbrains.annotations.Async;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -195,7 +198,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         startNavigating = (Button) getActivity().findViewById(R.id.startNavigating);
         searchBar = (TextInputEditText) getActivity().findViewById(R.id.searchBar);
 
-
         drivingButton = getActivity().findViewById(R.id.driving_profile_button);
         drivingButton.setTextColor(Color.WHITE);
         walkingButton = getActivity().findViewById(R.id.walking_profile_button);
@@ -214,6 +216,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         imageView.setVisibility(View.INVISIBLE);
         startNavigating.setEnabled(false);
         mapView.onSaveInstanceState(savedInstanceState);
+        mapView.onResume();
         mapView.getMapAsync(this);
 
 
@@ -332,9 +335,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                                 }
                             });
 
-//                            style.addImage(MARKER_RESTO_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_resto));
-//                            style.addImage(MARKER_BANK_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_bank));
-//                            style.addImage(MARKER_TOURISTSPOT_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_tourist));
+                            //style.addImage(MARKER_RESTO_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_resto));
+                            //style.addImage(MARKER_BANK_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_bank));
+                            //style.addImage(MARKER_TOURISTSPOT_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_tourist));
                             style.addImage(("marker_icon"), BitmapFactory.decodeResource(
                                     getResources(), R.drawable.marker_icon));
 
@@ -907,8 +910,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<FragmentMap> activityWeakReference;
-
-
 
         LocationChangeListeningActivityLocationCallback(FragmentMap activity) {
             this.activityWeakReference = new WeakReference<>(activity);

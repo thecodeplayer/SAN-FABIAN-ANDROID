@@ -96,6 +96,7 @@ public class FragmentWhatToDo extends Fragment{
         CardView relaxation = view.findViewById(R.id.relaxation);
         CardView gas = view.findViewById(R.id.gas_station);
         CardView market = view.findViewById(R.id.marketplace);
+        CardView money_converter = view.findViewById(R.id.money_converter);
 
         food_and_dining.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +148,13 @@ public class FragmentWhatToDo extends Fragment{
             @Override
             public void onClick(View v) {
                 getFragmentManager().beginTransaction().replace(R.id.container, new FragmentMarket()).addToBackStack(null).commit();
+            }
+        });
+
+        money_converter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentConverter()).addToBackStack(null).commit();
             }
         });
 

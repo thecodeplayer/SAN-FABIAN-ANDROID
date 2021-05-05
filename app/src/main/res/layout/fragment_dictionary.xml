@@ -7,7 +7,7 @@
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="197dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/dictionary_header2" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -24,11 +24,12 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:layout_marginStart="24dp"
         android:layout_marginTop="70dp"
         android:fontFamily="@font/patua_one"
         android:text="English-Pangasinan Dictionary"
         android:textColor="@color/white"
-        android:textSize="33sp" />
+        android:textSize="30sp" />
 
 </RelativeLayout>

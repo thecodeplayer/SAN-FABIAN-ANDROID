@@ -63,10 +63,11 @@ public class FragmentAboutUs extends Fragment {
                 "https://www.up.edu.ph/is-this-man-the-father-of-up/\n" +
                 "https://www.abebooks.com/9789718820001/Ferdinand-E-Marcos-Malacan%CC%83ang-Makiki-9718820000/plp\n" +
                 "http://angbuhaysaearth.blogspot.com/2016/07/bb-pilipinas-candidates-in-miss.html\n" +
-                        "https://commons.wikimedia.org/wiki/File:6908Poblacion,_San_Fabian,_Pangasinan_24.jpg" +
-                        "https://en.wikipedia.org/wiki/Perfecto_V._Fernandez" +
-                        "http://www.bantayog.org/galacae-arthur-erfe/galace-arthur-pic1/" +
-                        "https://thepangasinannomad.wordpress.com/2019/07/25/hobbit-farmville-san-fabian-pangasinan/" +
+                        "https://commons.wikimedia.org/wiki/File:6908Poblacion,_San_Fabian,_Pangasinan_24.jpg\n" +
+                        "https://en.wikipedia.org/wiki/Perfecto_V._Fernandez\n" +
+                        "http://www.bantayog.org/galacae-arthur-erfe/galace-arthur-pic1/\n" +
+                        "https://thepangasinannomad.wordpress.com/2019/07/25/hobbit-farmville-san-fabian-pangasinan/\n" +
+                        "https://punch.dagupan.com/news/2020/03/bikers-lane-a-boon-to-sports-tourism-in-san-fabian/\n" +
                 "blogspot.com\n" +
                 "angsarap.net\n" +
                 "philatlas.com\n");

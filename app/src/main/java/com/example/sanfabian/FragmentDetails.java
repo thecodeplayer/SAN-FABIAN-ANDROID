@@ -171,6 +171,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
 
         mapView = details.findViewById(R.id.detailsMapview);
         mapView.onCreate(savedInstanceState);
+        mapView.onResume();
         mapView.getMapAsync(this);
 
         rate.setOnClickListener(new View.OnClickListener() {
