@@ -87,7 +87,6 @@ public class FragmentWhatToDo extends Fragment{
         sliderView.setAutoCycle(true);
         sliderView.startAutoCycle();
 
-
         CardView food_and_dining = view.findViewById(R.id.food_and_dining);
         CardView stays = view.findViewById(R.id.staycation);
         CardView transport = view.findViewById(R.id.transport);

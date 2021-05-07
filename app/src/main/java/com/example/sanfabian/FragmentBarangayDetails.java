@@ -5,11 +5,13 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.codesgood.views.JustifiedTextView;
+import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -49,7 +52,9 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +70,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
 
-public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallback,  PermissionsListener {
+public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallback,  PermissionsListener, Serializable {
 
     private Context mContext;
     private MapView mapView;
@@ -75,15 +80,17 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
-    TextView title, rate, rating, nRate, hotline, attraction_name1, attraction_name2, attraction_name3, product_name1, product_name2, product_name3;
+
+    LinearLayout attractions_layout, products_layout;
+    TextView title, rate, rating, nRate, hotline;
     JustifiedTextView description;
-    ImageView barangay_photo, attraction_photo1, attraction_photo2, attraction_photo3, product_photo1, product_photo2, product_photo3;
+    ImageView barangay_photo;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
     // latOrigin at lngOrig
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
-    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _hotline, _attraction1, _attraction2, _attraction3,_product1, _product2, _product3, _attractionname1, _attractionname2, _attractionname3, _productname1, _productname2, _productname3;
+    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _hotline;
     Double _rating, _nrate, _fnate;
 
     private RatingBar ratingBar;
@@ -125,19 +132,8 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         ratingBar = details.findViewById(R.id.rating_bar);
         rating = details.findViewById(R.id.rating);
         barangay_photo = details.findViewById(R.id.barangay_photo);
-        attraction_photo1 = details.findViewById(R.id.attraction_photo1);
-        attraction_photo2 = details.findViewById(R.id.attraction_photo2);
-        attraction_photo3 = details.findViewById(R.id.attraction_photo3);
-        product_photo1 = details.findViewById(R.id.product_photo1);
-        product_photo2 = details.findViewById(R.id.product_photo2);
-        product_photo3 = details.findViewById(R.id.product_photo3);
-        attraction_name1 = details.findViewById(R.id.attraction_name1);
-        attraction_name2 = details.findViewById(R.id.attraction_name2);
-        attraction_name3 = details.findViewById(R.id.attraction_name3);
-        product_name1 = details.findViewById(R.id.product_name1);
-        product_name2 = details.findViewById(R.id.product_name2);
-        product_name3 = details.findViewById(R.id.product_name3);
-
+        attractions_layout = details.findViewById(R.id.attractions_layout);
+        products_layout = details.findViewById(R.id.products_layout);
 
         Bundle bundle = this.getArguments();
         _title = bundle.getString("TITLE");
@@ -151,18 +147,11 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         _fnate = bundle.getDouble("FRATING");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
-        _attraction1 = bundle.getString("ATTRACTION1");
-        _attraction2 = bundle.getString("ATTRACTION2");
-        _attraction3 = bundle.getString("ATTRACTION3");
-        _product1 = bundle.getString("PRODUCT1");
-        _product2 = bundle.getString("PRODUCT2");
-        _product3 = bundle.getString("PRODUCT3");
-        _attractionname1 = bundle.getString("ATTRACTION_NAME1");
-        _attractionname2 = bundle.getString("ATTRACTION_NAME2");
-        _attractionname3 = bundle.getString("ATTRACTION_NAME3");
-        _productname1 = bundle.getString("PRODUCT_NAME1");
-        _productname2 = bundle.getString("PRODUCT_NAME2");
-        _productname3 = bundle.getString("PRODUCT_NAME3");
+
+        ArrayList<Transaction> _attractions = (ArrayList<Transaction>) bundle.getSerializable("ATTRACTIONS");
+        ArrayList<Transaction> _attractions_name = (ArrayList<Transaction>) bundle.getSerializable("ATTRACTIONS_NAME");
+        ArrayList<Transaction> _products = (ArrayList<Transaction>) bundle.getSerializable("PRODUCTS");
+        ArrayList<Transaction> _products_name = (ArrayList<Transaction>) bundle.getSerializable("PRODUCTS_NAME");
 
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
@@ -170,21 +159,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         rating.setText(final_rating);
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
-
-        Picasso.get().load(_attraction1).into(attraction_photo1);
-        Picasso.get().load(_attraction2).into(attraction_photo2);
-        Picasso.get().load(_attraction3).into(attraction_photo3);
-        Picasso.get().load(_product1).into(product_photo1);
-        Picasso.get().load(_product2).into(product_photo2);
-        Picasso.get().load(_product3).into(product_photo3);
-
-        attraction_name1.setText(_attractionname1);
-        attraction_name2.setText(_attractionname2);
-        attraction_name3.setText(_attractionname3);
-        product_name1.setText(_productname1);
-        product_name2.setText(_productname2);
-        product_name3.setText(_productname3);
-
 
 
         title.setText(_title);
@@ -194,6 +168,8 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         nRate.setText("(" + noRating + " Ratings)");
         Picasso.get().load(_imageurl).into(barangay_photo);
 
+        Layout(_attractions, _attractions_name, attractions_layout);
+        Layout(_products, _products_name, products_layout);
 
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
@@ -223,6 +199,27 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         RatingDialog rating = new RatingDialog();
         rating.setArguments(bundle);
         rating.show(getFragmentManager(), "Rating Dialog");
+    }
+
+    public void Layout(ArrayList items, ArrayList item_names, LinearLayout layout){
+        try {
+            for (int item = 0; item <= items.size(); item++) {
+                ImageView imgItem = new ImageView(mContext);
+                TextView txtItem = new TextView(mContext);
+                Picasso.get().load(String.valueOf(items.get(item))).into(imgItem);
+                txtItem.setText(String.valueOf(item_names.get(item)));
+                txtItem.setGravity(Gravity.CENTER_HORIZONTAL);
+                txtItem.setTextColor(this.getResources().getColor(R.color.black));
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,5,0,40);
+                txtItem.setLayoutParams(params);
+                txtItem.setTextSize(20);
+                layout.addView(imgItem);
+                layout.addView(txtItem);
+            }
+        } catch (Exception e){
+
+        }
     }
 
     @Override

@@ -185,8 +185,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="25dp"
-                        android:text="Main Attraction"
+                        android:text="Main Attractions"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/roboto_medium"
                         android:textSize="20sp"
                         android:textColor="@color/black"/>
@@ -194,56 +195,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/attractions_layout"
                         android:orientation="vertical"
                         android:gravity="center">
-
-                        <ImageView
-                            android:id="@+id/attraction_photo1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/attraction_name1"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
-
-                        <ImageView
-                            android:id="@+id/attraction_photo2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/attraction_name2"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
-
-                        <ImageView
-                            android:id="@+id/attraction_photo3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/attraction_name3"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
 
                     </LinearLayout>
                 </LinearLayout>
@@ -259,6 +213,7 @@
                         android:layout_marginLeft="25dp"
                         android:text="Products"
                         android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:fontFamily="@font/roboto_medium"
                         android:textSize="20sp"
                         android:textColor="@color/black"/>
@@ -266,57 +221,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/products_layout"
                         android:orientation="vertical"
                         android:gravity="center">
-
-
-                        <ImageView
-                            android:id="@+id/product_photo1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/product_name1"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
-
-                        <ImageView
-                            android:id="@+id/product_photo2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/product_name2"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
-
-                        <ImageView
-                            android:id="@+id/product_photo3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="10dp" />
-
-                        <TextView
-                            android:id="@+id/product_name3"
-                            android:layout_width="match_parent"
-                            android:gravity="center"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"/>
 
                     </LinearLayout>
                 </LinearLayout>

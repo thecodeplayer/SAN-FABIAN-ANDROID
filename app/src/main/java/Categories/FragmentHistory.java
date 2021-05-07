@@ -26,6 +26,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 
@@ -92,11 +93,13 @@ public class FragmentHistory extends Fragment implements FirestoreViewPagerInter
         String title = snapshot.getString("title");
         String description = snapshot.getString("description");
         String imgUrl = snapshot.getString("imageUrl");
+        ArrayList<Transaction> mayors = (ArrayList<Transaction>) snapshot.get("municipal_mayors");
 
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
         bundle.putString("DESCRIPTION", description);
         bundle.putString("IMAGEURL", imgUrl);
+        bundle.putSerializable("MAYORS", mayors);
         FragmentDetails4 details = new FragmentDetails4();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();

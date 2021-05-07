@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 
@@ -101,10 +102,7 @@ public class FragmentTouristSpots extends Fragment implements FirestoreViewPager
         Double rating = snapshot.getDouble("rating");
         Double nrate = snapshot.getDouble("nrate");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
-        ArrayList<String> photos = (ArrayList<String>) snapshot.get("photos");
-        String photo1 = photos.get(0);
-        String photo2 = photos.get(1);
-        String photo3 = photos.get(2);
+        ArrayList<Transaction> photos = (ArrayList<Transaction>) snapshot.get("photos");
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
@@ -122,9 +120,7 @@ public class FragmentTouristSpots extends Fragment implements FirestoreViewPager
         bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-        bundle.putString("PHOTO1", photo1);
-        bundle.putString("PHOTO2", photo2);
-        bundle.putString("PHOTO3", photo3);
+        bundle.putSerializable("PHOTOS", photos);
 
         FragmentDetails details = new FragmentDetails();
         details.setArguments(bundle);

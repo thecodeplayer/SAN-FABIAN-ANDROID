@@ -23,11 +23,10 @@
 
             <ImageView
                 android:id="@+id/details_photo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
                 android:layout_gravity="center"/>
-
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -52,10 +51,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
                 android:autoLink="web"
                 android:linksClickable="true"
                 android:textSize="18sp"
                 android:textColor="@color/black"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/dynamic_layout"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp">
+            </LinearLayout>
 
             </LinearLayout>
     </ScrollView>

@@ -7,11 +7,13 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 
 import com.codesgood.views.JustifiedTextView;
 import com.google.android.material.internal.ParcelableSparseArray;
+import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -56,6 +59,7 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -76,7 +80,7 @@ import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
 
-public class FragmentDetails extends Fragment implements OnMapReadyCallback,  PermissionsListener {
+public class FragmentDetails extends Fragment implements OnMapReadyCallback,  PermissionsListener, Serializable {
 
     private Context mContext;
     private MapView mapView;
@@ -86,11 +90,12 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
+
+    LinearLayout photos_layout;
     TextView title, rate, rating, nRate;
     JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
-    ImageView _firstPhoto, _secondPhoto, _thirdPhoto;
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
     private RatingBar ratingBar;
@@ -101,7 +106,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
     private LatLng sample;
-    private String _imageurl, _title, _collection, _id, _description, _photo1, _photo2, _photo3, collectionName, documentID;
+    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID;
     Double _rating, _nrate, _fnate;
 
     @Override
@@ -128,9 +133,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         ratingBar = details.findViewById(R.id.rating_bar);
         rating = details.findViewById(R.id.rating);
         nRate = details.findViewById(R.id._nRate);
-        _firstPhoto = details.findViewById(R.id.first_photo);
-        _secondPhoto = details.findViewById(R.id.second_photo);
-        _thirdPhoto = details.findViewById(R.id.third_photo);
+        photos_layout = details.findViewById(R.id.photos_layout);
 
         Bundle bundle = this.getArguments();
         _imageurl = bundle.getString("IMAGEURL");
@@ -143,11 +146,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         _fnate = bundle.getDouble("FRATING");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
-        _photo1 = bundle.getString("PHOTO1");
-        _photo2 = bundle.getString("PHOTO2");
-        _photo3 = bundle.getString("PHOTO3");
-//        String[] _photos = bundle.getStringArray("PHOTOS");
-//        System.out.println("Photos" + _photos);
+        ArrayList<Transaction> photos = (ArrayList<Transaction>) bundle.getSerializable("PHOTOS");
 
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
@@ -156,16 +155,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
 
-        Picasso.get().load(_photo1).into(_firstPhoto);
-        Picasso.get().load(_photo2).into(_secondPhoto);
-        Picasso.get().load(_photo3).into(_thirdPhoto);
-
-        title.setText(_title);
-        description.setText(_description);
-        int noRating = _nrate.intValue();
-        nRate.setText("(" + noRating + " Ratings)");
-
-
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
 
@@ -173,6 +162,13 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
+
+        title.setText(_title);
+        description.setText(_description);
+        int noRating = _nrate.intValue();
+        nRate.setText("(" + noRating + " Ratings)");
+
+        Layout(photos, photos_layout);
 
         rate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,6 +191,21 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         RatingDialog rating = new RatingDialog();
         rating.setArguments(bundle);
         rating.show(getFragmentManager(), "Rating Dialog");
+    }
+
+    public void Layout(ArrayList items, LinearLayout layout){
+        try {
+            for (int item = 0; item <= items.size(); item++) {
+                ImageView imgItem = new ImageView(mContext);
+                Picasso.get().load(String.valueOf(items.get(item))).into(imgItem);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,0,0,30);
+                imgItem.setLayoutParams(params);
+                layout.addView(imgItem);
+            }
+        } catch (Exception e){
+
+        }
     }
 
     @Override
@@ -234,15 +245,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
                 iconOffset(new Float[] {0f, -7f})
 
         ));
-
-        System.out.println(origin);
-
-//        map.getStyle(new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                getRoute(driving, map, origin, destination);
-//            }
-//        });
 
         getDirection.setOnClickListener(new View.OnClickListener() {
             @Override

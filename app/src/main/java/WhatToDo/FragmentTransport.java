@@ -81,10 +81,6 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
         String id = snapshot.getId();
         Double rating = snapshot.getDouble("rating");
         Double nrate = snapshot.getDouble("nrate");
-//        ArrayList<String> photos = (ArrayList<String>) snapshot.get("photos");
-//        String photo1 = photos.get(0);
-//        String photo2 = photos.get(1);
-//        String photo3 = photos.get(2);
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
@@ -102,9 +98,6 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
         bundle.putDouble("FRATING", finalRating);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-//        bundle.putString("PHOTO1", photo1);
-//        bundle.putString("PHOTO2", photo2);
-//        bundle.putString("PHOTO3", photo3);
         FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();

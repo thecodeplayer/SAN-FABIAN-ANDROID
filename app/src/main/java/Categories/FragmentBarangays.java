@@ -31,6 +31,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.Transaction;
 import com.mapbox.mapboxsdk.geometry.LatLng;
 
 import java.util.ArrayList;
@@ -94,24 +95,12 @@ public class FragmentBarangays extends Fragment implements FirestoreViewPagerInt
         String imgUrl = snapshot.getString("imageUrl");
         String hotline = snapshot.getString("hotline");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
-        String attraction = snapshot.getString("attraction");
 
-        ArrayList<String> attractions = (ArrayList<String>) snapshot.get("attractions");
-        ArrayList<String> products = (ArrayList<String>) snapshot.get("products");
-        ArrayList<String> attractions_name = (ArrayList<String>) snapshot.get("name_of_attractions");
-        ArrayList<String> product_names = (ArrayList<String>) snapshot.get("name_of_products");
-        String attraction1 = attractions.get(0);
-        String attraction2 = attractions.get(1);
-        String attraction3 = attractions.get(2);
-        String product1 = products.get(0);
-        String product2 = products.get(1);
-        String product3 = products.get(2);
-        String product_name1 = product_names.get(0);
-        String product_name2 = product_names.get(1);
-        String product_name3 = product_names.get(2);
-        String attraction_name1 = attractions_name.get(0);
-        String attraction_name2 = attractions_name.get(1);
-        String attraction_name3 = attractions_name.get(2);
+        ArrayList<Transaction> attractions = (ArrayList<Transaction>) snapshot.get("attractions");
+        ArrayList<Transaction> products = (ArrayList<Transaction>) snapshot.get("products");
+        ArrayList<Transaction> attractions_name = (ArrayList<Transaction>) snapshot.get("name_of_attractions");
+        ArrayList<Transaction> product_names = (ArrayList<Transaction>) snapshot.get("name_of_products");
+
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
@@ -122,19 +111,11 @@ public class FragmentBarangays extends Fragment implements FirestoreViewPagerInt
         bundle.putString("HOTLINE", hotline);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
-        bundle.putString("ATTRACTION", attraction);
-        bundle.putString("PRODUCT1", product1);
-        bundle.putString("PRODUCT2", product2);
-        bundle.putString("PRODUCT3", product3);
-        bundle.putString("ATTRACTION1", attraction1);
-        bundle.putString("ATTRACTION2", attraction2);
-        bundle.putString("ATTRACTION3", attraction3);
-        bundle.putString("PRODUCT_NAME1", product_name1);
-        bundle.putString("PRODUCT_NAME2", product_name2);
-        bundle.putString("PRODUCT_NAME3", product_name3);
-        bundle.putString("ATTRACTION_NAME1", attraction_name1);
-        bundle.putString("ATTRACTION_NAME2", attraction_name2);
-        bundle.putString("ATTRACTION_NAME3", attraction_name3);
+        bundle.putSerializable("ATTRACTIONS", attractions);
+        bundle.putSerializable("PRODUCTS", products);
+        bundle.putSerializable("ATTRACTIONS_NAME", attractions_name);
+        bundle.putSerializable("PRODUCTS_NAME", product_names);
+
         FragmentBarangayDetails details = new FragmentBarangayDetails();
         details.setArguments(bundle);
         getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();

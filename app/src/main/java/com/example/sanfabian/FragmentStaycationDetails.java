@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.codesgood.views.JustifiedTextView;
+import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -50,6 +52,7 @@ import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -75,6 +78,8 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
+
+    LinearLayout photos_layout;
     TextView title, rate, rating, nRate;
     JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
@@ -117,10 +122,8 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         ratingBar = details.findViewById(R.id.rating_bar);
         rating = details.findViewById(R.id.rating);
         nRate = details.findViewById(R.id._nRate);
-        _firstPhoto = details.findViewById(R.id.first_photo);
-        _secondPhoto = details.findViewById(R.id.second_photo);
-        _thirdPhoto = details.findViewById(R.id.third_photo);
         amenities = details.findViewById(R.id.amenities);
+        photos_layout = details.findViewById(R.id.photos_layout);
 
         Bundle bundle = this.getArguments();
         _imageurl = bundle.getString("IMAGEURL");
@@ -134,11 +137,8 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         _amenities = bundle.getString("AMENITIES");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
-        _photo1 = bundle.getString("PHOTO1");
-        _photo2 = bundle.getString("PHOTO2");
-        _photo3 = bundle.getString("PHOTO3");
-//        String[] _photos = bundle.getStringArray("PHOTOS");
-//        System.out.println("Photos" + _photos);
+        ArrayList<Transaction> photos = (ArrayList<Transaction>) bundle.getSerializable("PHOTOS");
+
 
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
@@ -147,9 +147,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
 
-        Picasso.get().load(_photo1).into(_firstPhoto);
-        Picasso.get().load(_photo2).into(_secondPhoto);
-        Picasso.get().load(_photo3).into(_thirdPhoto);
+        Layout(photos, photos_layout);
         Picasso.get().load(_amenities).into(amenities);
 
         title.setText(_title);
@@ -185,6 +183,21 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         RatingDialog rating = new RatingDialog();
         rating.setArguments(bundle);
         rating.show(getFragmentManager(), "Rating Dialog");
+    }
+
+    public void Layout(ArrayList items, LinearLayout layout){
+        try {
+            for (int item = 0; item <= items.size(); item++) {
+                ImageView imgItem = new ImageView(mContext);
+                Picasso.get().load(String.valueOf(items.get(item))).into(imgItem);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,0,0,30);
+                imgItem.setLayoutParams(params);
+                layout.addView(imgItem);
+            }
+        } catch (Exception e){
+
+        }
     }
 
     @Override
