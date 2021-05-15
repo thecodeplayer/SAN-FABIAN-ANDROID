@@ -296,10 +296,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
 
     }
 
-    //Pagkabukas ng Map
+    //Opening of Map
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
-
         map = mapboxMap;
         map.addOnMapLongClickListener(this);
         map.setMinZoomPreference(3);
@@ -335,13 +334,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                                 }
                             });
 
-                            //style.addImage(MARKER_RESTO_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_resto));
-                            //style.addImage(MARKER_BANK_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_bank));
-                            //style.addImage(MARKER_TOURISTSPOT_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_tourist));
                             style.addImage(("marker_icon"), BitmapFactory.decodeResource(
                                     getResources(), R.drawable.marker_icon));
 
-                            // style.addSource(new GeoJsonSource((SOURCE_ID, FeatureCollection.fromFeature())));
                             style.addSource(geoJsonSource);
                             style.addLayer(new SymbolLayer("layer-id", "source-id")
                                     .withProperties(
@@ -382,13 +377,9 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                             });
 
 
-//                            style.addImage(MARKER_RESTO_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_resto));
-//                            style.addImage(MARKER_BANK_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_bank));
-//                            style.addImage(MARKER_TOURISTSPOT_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_tourist));
                             style.addImage(("marker_icon"), BitmapFactory.decodeResource(
                                     getResources(), R.drawable.marker_icon));
 
-                            // style.addSource(new GeoJsonSource((SOURCE_ID, FeatureCollection.fromFeature())));
                             style.addSource(geoJsonSource);
                             style.addLayer(new SymbolLayer("layer-id", "source-id")
                                     .withProperties(
@@ -831,10 +822,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if(locationEngine != null){
-//            locationEngine.deactivate();
-//        }
-//        mapView.onDestroy();
     }
 
 
@@ -862,7 +849,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             public void onStyleLoaded(@NonNull Style style) {
                 moveDestinationMarkerToNewLocation(point);
                 getAllRoutes(true);
-//                getRoute(map, originPosition, destinationPosition);
                 initSource(style, destinationPosition);
                 initLayers(style);
                 initButtonClickListeners();
@@ -925,27 +911,30 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             FragmentMap activity = activityWeakReference.get();
 
             if (activity != null) {
-                activity.myLocation = result.getLastLocation();
-                activity.mylocationlatlng = new LatLng(result.getLastLocation().getLatitude(), result.getLastLocation().getLongitude());
-                if (activity.myLocation == null) {
+                Location location = result.getLastLocation();
+
+                if (location == null) {
                     return;
                 }
-
-//
-//                activity.setCameraPosition(myLocation);
-
-
-// Create a Toast which displays the new location's coordinates
-//                Toast.makeText(activity, String.format(activity.getString(R.string.new_location),
-//                        String.valueOf(result.getLastLocation().getLatitude()),
-//                        String.valueOf(result.getLastLocation().getLongitude())),
-//                        Toast.LENGTH_SHORT).show();
 
 // Pass the new location to the Maps SDK's LocationComponent
                 if (activity.map != null && result.getLastLocation() != null) {
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
+
+//                if (activity != null) {
+//                    activity.myLocation = result.getLastLocation();
+//                    activity.mylocationlatlng = new LatLng(result.getLastLocation().getLatitude(), result.getLastLocation().getLongitude());
+//                    if (activity.myLocation == null) {
+//                        activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+//                    }
+//
+//                if (activity.map != null && result.getLastLocation() != null) {
+//                    activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+//                }
+//            }
+
         }
 
 

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,6 +97,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
+    ProgressBar loading_user_location;
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
     private RatingBar ratingBar;
@@ -134,6 +136,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         rating = details.findViewById(R.id.rating);
         nRate = details.findViewById(R.id._nRate);
         photos_layout = details.findViewById(R.id.photos_layout);
+        loading_user_location = details.findViewById(R.id.loading_user_location);
 
         Bundle bundle = this.getArguments();
         _imageurl = bundle.getString("IMAGEURL");
@@ -154,6 +157,8 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         rating.setText(final_rating);
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
+        getDirection.setVisibility(View.INVISIBLE);
+        loading_user_location.setVisibility(View.VISIBLE);
 
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
@@ -364,14 +369,20 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         @Override
         public void onSuccess(LocationEngineResult result) {
             FragmentDetails activity = activityWeakReference.get();
+
+            if (activity != null) {
+                Location location = result.getLastLocation();
+
+                if (location == null) {
+                    return;
+                }
+            }
+
             if (activity != null) {
                 activity.myLocation = result.getLastLocation();
                 activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
-//                activity.getRoute(activity.driving, activity.map, activity.origin, activity.destination);
-//                activity.distance.setText("yes" + activity.kms);
-                if (activity.myLocation == null) {
-                    return;
-                }
+                activity.getDirection.setVisibility(View.VISIBLE);
+                activity.loading_user_location.setVisibility(View.INVISIBLE);
 
                 if (activity.map != null && result.getLastLocation() != null) {
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());

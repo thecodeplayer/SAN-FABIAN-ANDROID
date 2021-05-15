@@ -228,17 +228,27 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/buttonGetDirection"
-                    android:backgroundTint="@color/icon_blue"
-                    android:layout_width="350dp"
-                    android:layout_height="60dp"
-                    android:layout_gravity="center"
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
-                    android:layout_marginBottom="25dp"
-                    android:gravity="center"
-                    android:text="Get Direction"
-                    android:textSize="18sp" />
+                    android:layout_marginBottom="25dp">
+
+                    <Button
+                        android:id="@+id/buttonGetDirection"
+                        android:backgroundTint="@color/icon_blue"
+                        android:layout_width="350dp"
+                        android:layout_height="60dp"
+                        android:layout_centerHorizontal="true"
+                        android:text="Get Direction"
+                        android:textSize="18sp"/>
+
+                    <ProgressBar
+                        android:id="@+id/loading_user_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
             </LinearLayout>
 
         </RelativeLayout>

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,6 +85,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
     JustifiedTextView description;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
     Button getDirection;
+    ProgressBar loading_user_location;
     ImageView _firstPhoto, _secondPhoto, _thirdPhoto, amenities;
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
@@ -124,6 +126,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         nRate = details.findViewById(R.id._nRate);
         amenities = details.findViewById(R.id.amenities);
         photos_layout = details.findViewById(R.id.photos_layout);
+        loading_user_location = details.findViewById(R.id.loading_user_location);
 
         Bundle bundle = this.getArguments();
         _imageurl = bundle.getString("IMAGEURL");
@@ -146,6 +149,8 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         rating.setText(final_rating);
         ratingBar.setRating(_finalRating);
         ratingBar.setIsIndicator(true);
+        getDirection.setVisibility(View.INVISIBLE);
+        loading_user_location.setVisibility(View.VISIBLE);
 
         Layout(photos, photos_layout);
         Picasso.get().load(_amenities).into(amenities);
@@ -365,19 +370,37 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         @Override
         public void onSuccess(LocationEngineResult result) {
             FragmentStaycationDetails activity = activityWeakReference.get();
+
+            if (activity != null) {
+                Location location = result.getLastLocation();
+
+                if (location == null) {
+                    return;
+                }
+            }
+
             if (activity != null) {
                 activity.myLocation = result.getLastLocation();
                 activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
-//                activity.getRoute(activity.driving, activity.map, activity.origin, activity.destination);
-//                activity.distance.setText("yes" + activity.kms);
-                if (activity.myLocation == null) {
-                    return;
-                }
+                activity.getDirection.setVisibility(View.VISIBLE);
+                activity.loading_user_location.setVisibility(View.INVISIBLE);
 
                 if (activity.map != null && result.getLastLocation() != null) {
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
+
+//            if (activity != null) {
+//                activity.myLocation = result.getLastLocation();
+//                activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
+//                if (activity.myLocation == null) {
+//                    return;
+//                }
+//
+//                if (activity.map != null && result.getLastLocation() != null) {
+//                    activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
+//                }
+//            }
         }
 
 

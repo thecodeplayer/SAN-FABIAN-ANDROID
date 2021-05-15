@@ -2,6 +2,8 @@ package WhatToDo;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
@@ -38,6 +40,9 @@ import Models.SliderItem;
 import Utilities.HelperClass;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.ACCESS_NETWORK_STATE;
+import static android.Manifest.permission.INTERNET;
+
 public class FragmentWhatToDo extends Fragment{
 
     private Context mContext;
@@ -69,7 +74,6 @@ public class FragmentWhatToDo extends Fragment{
         super.onViewCreated(view, savedInstanceState);
 
         SliderView sliderView = view.findViewById(R.id.imageSlider);
-
 
         adapter.addItem(new SliderItem("android.resource://com.example.sanfabian/" + R.drawable.san_fabian_church2));
         adapter.addItem(new SliderItem("android.resource://com.example.sanfabian/" + R.drawable.san_fabian_mangrove2));
@@ -176,33 +180,19 @@ public class FragmentWhatToDo extends Fragment{
         weatherIconField = view.findViewById(R.id.weather_icon);
         weatherIconField.setTypeface(weatherFont);
 
-        String[] jsonData = getJSONResponse();
+        try {
+            String[] jsonData = getJSONResponse();
+            cityField.setText(jsonData[0]);
+            detailsField.setText(jsonData[1]);
+            currentTemperatureField.setText(jsonData[2]);
+            updatedField.setText(jsonData[3]);
+            weatherIconField.setText(Html.fromHtml(jsonData[4]));
+        } catch (Exception e){
 
-        if (jsonData == null) {
-
-        }else if (jsonData != null) {
-            jsonData = getJSONResponse();
         }
 
-        cityField.setText(jsonData[0]);
-        detailsField.setText(jsonData[1]);
-        currentTemperatureField.setText(jsonData[2]);
-        updatedField.setText(jsonData[3]);
-        weatherIconField.setText(Html.fromHtml(jsonData[4]));
 
-//        FusedLocationProviderClient fusedLocationProviderClient;
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
-//        if(ActivityCompat.checkSelfPermission(mContext,ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-//            return;
-//        }
-//        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-//            @Override
-//            public void onSuccess(Location location) {
-//                if(location != null){
-//
-//                }
-//            }
-//        });
+
     }
 
     private String[] getJSONResponse() {
@@ -301,8 +291,10 @@ public class FragmentWhatToDo extends Fragment{
     }
 
     private void requestPermissions() {
+        ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_NETWORK_STATE}, 1);
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, 1);
     }
+
 
 
 }
