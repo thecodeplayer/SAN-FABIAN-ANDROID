@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,8 +11,8 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.sanfabian.FragmentDetails;
 import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
@@ -21,13 +20,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
-
-import java.util.ArrayList;
-
 import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
-
 import static java.lang.Float.isNaN;
 
 public class FragmentTransport extends Fragment implements FirestoreViewPagerInterface {
@@ -63,7 +58,6 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
 
         adapter = new FirestoreAdapter(options, this);
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -100,9 +94,9 @@ public class FragmentTransport extends Fragment implements FirestoreViewPagerInt
         bundle.putDouble("LONGITUDE", lng);
         FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
-
+        getParentFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
     }
+
     @Override
     public void onStart() {
         super.onStart();

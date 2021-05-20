@@ -1,23 +1,19 @@
 package Dictionary;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.example.sanfabian.R;
-
 
 public class FragmentDefinition extends Fragment {
 
     private View definition;
-    TextView word, classification, pilipino_word, pangasinan_word, eng_example, pang_example;
+    TextView word, classification, pilipino_word, pangasinan_word, eng_example, pang_example, tag_example;
 
     @Nullable
     @Override
@@ -30,6 +26,7 @@ public class FragmentDefinition extends Fragment {
         pangasinan_word = definition.findViewById(R.id.wordPangasinan);
         eng_example = definition.findViewById(R.id.english_example);
         pang_example = definition.findViewById(R.id.pangasinan_example);
+        tag_example = definition.findViewById(R.id.tagalog_example);
         word.getPaint().setUnderlineText(true);
 
         Bundle bundle = this.getArguments();
@@ -39,6 +36,7 @@ public class FragmentDefinition extends Fragment {
         String pangasinan = bundle.getString("PANGASINAN");
         String english_example = bundle.getString("ENGLISH_EXAMPLE");
         String pangasinan_example = bundle.getString("PANGASINAN_EXAMPLE");
+        String tagalog_example = bundle.getString("TAGALOG_EXAMPLE");
 
         word.setText(dictionary_word);
         classification.setText(word_classification);
@@ -46,6 +44,7 @@ public class FragmentDefinition extends Fragment {
         pangasinan_word.setText(pangasinan);
         eng_example.setText(english_example);
         pang_example.setText(pangasinan_example);
+        tag_example.setText(tagalog_example);
 
         return definition;
     }

@@ -14,17 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.codesgood.views.JustifiedTextView;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
@@ -54,24 +50,21 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
 
-public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  PermissionsListener {
+public class FragmentHotlineDetails extends Fragment implements OnMapReadyCallback,  PermissionsListener {
 
     private Context mContext;
     private MapView mapView;
@@ -91,17 +84,12 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
     private static final int REQUEST_CALL = 1;
     private String _number;
 
-    private RatingBar ratingBar;
-
-    //Bago
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
-    //Bago
-
     LatLng sample;
 
     @Override
@@ -119,23 +107,18 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        details = inflater.inflate(R.layout.details_layout3, container, false);
+        details = inflater.inflate(R.layout.hotline_details, container, false);
 
         title = details.findViewById(R.id.title);
         rate = details.findViewById(R.id._rate);
         getDirection = details.findViewById(R.id.buttonGetDirection);
         call = details.findViewById(R.id.call);
 
-
         Bundle bundle = this.getArguments();
         String _title = bundle.getString("TITLE");
-        String _description = bundle.getString("DESCRIPTION");
         _number = bundle.getString("NUMBER");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
-
-
-
 
         title.setText(_title);
         sample = new LatLng(_latitude, _longtitude);
@@ -186,15 +169,6 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
 
         ));
 
-        System.out.println(origin);
-
-//        map.getStyle(new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                getRoute(driving, map, origin, destination);
-//            }
-//        });
-
         call.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,10 +184,10 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
                 longtitudeOrigin = myLocation.getLongitude();
                 bundle.putDouble("LATITUDE", _latitude);
                 bundle.putDouble("LONGITUDE", _longtitude);
-                //Bago
+
                 bundle.putDouble("LATORG", latitudeOrigin);
                 bundle.putDouble("LNGORG", longtitudeOrigin);
-                //Bago
+
                 FragmentGetDirection map = new FragmentGetDirection();
                 map.setArguments(bundle);
                 getFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
@@ -221,9 +195,10 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
         });
     }
 
+    //Location Component
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -237,7 +212,7 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -245,25 +220,24 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
 
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
 
-
         } else {
-//            permissionsManager = new PermissionsManager(this);
-//            permissionsManager.requestLocationPermissions(getActivity());
+            // permissionsManager = new PermissionsManager(this);
+            // permissionsManager.requestLocationPermissions(getActivity());
         }
     }
 
@@ -284,9 +258,7 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
     }
 
     @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-
-    }
+    public void onExplanationNeeded(List<String> permissionsToExplain) { }
 
     @Override
     public void onPermissionResult(boolean granted) {
@@ -304,11 +276,9 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
     private static class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
 
-        private final WeakReference<FragmentDetails3> activityWeakReference;
+        private final WeakReference<FragmentHotlineDetails> activityWeakReference;
 
-
-
-        LocationChangeListeningActivityLocationCallback(FragmentDetails3 activity) {
+        LocationChangeListeningActivityLocationCallback(FragmentHotlineDetails activity) {
             this.activityWeakReference = new WeakReference<>(activity);
         }
 
@@ -319,12 +289,10 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
          */
         @Override
         public void onSuccess(LocationEngineResult result) {
-            FragmentDetails3 activity = activityWeakReference.get();
+            FragmentHotlineDetails activity = activityWeakReference.get();
             if (activity != null) {
                 activity.myLocation = result.getLastLocation();
                 activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
-//                activity.getRoute(activity.driving, activity.map, activity.origin, activity.destination);
-//                activity.distance.setText("yes" + activity.kms);
                 if (activity.myLocation == null) {
                     return;
                 }
@@ -343,7 +311,7 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
          */
         @Override
         public void onFailure(@NonNull Exception exception) {
-            FragmentDetails3 activity = activityWeakReference.get();
+            FragmentHotlineDetails activity = activityWeakReference.get();
             if (activity != null) {
                 Toast.makeText(activity.getActivity(), exception.getLocalizedMessage(),
                         Toast.LENGTH_SHORT).show();
@@ -363,7 +331,7 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -385,7 +353,6 @@ public class FragmentDetails3 extends Fragment implements OnMapReadyCallback,  P
                     default:
                         break;
                 }
-
             }
 
             @Override

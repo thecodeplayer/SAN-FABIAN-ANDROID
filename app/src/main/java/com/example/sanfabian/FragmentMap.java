@@ -17,13 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.loader.content.AsyncTaskLoader;
-
-
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.mapbox.android.core.location.LocationEngine;
@@ -65,33 +61,23 @@ import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
 import com.mapbox.navigation.core.MapboxNavigation;
-import com.mapbox.navigation.ui.internal.NavigationContract;
-
-import org.jetbrains.annotations.Async;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.core.constants.Constants.PRECISION_6;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconTextFit;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineCap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineColor;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineJoin;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
-
 
 public class FragmentMap extends Fragment implements OnMapReadyCallback, PermissionsListener, MapboxMap.OnMapLongClickListener {
 
@@ -130,8 +116,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     private LineLayer routeLayer;
     private ValueAnimator animator;
 
-    private Point originPosition;
-    private Point destinationPosition;
+    private Point originPosition, destinationPosition;
     private DirectionsRoute drivingRoute;
     private DirectionsRoute walkingRoute;
     private DirectionsRoute cyclingRoute;
@@ -156,7 +141,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     private static final String ICON_LAYER_ID = "icon-layer-id";
     private static final String ICON_SOURCE_ID = "icon-source-id";
     private static final String RED_PIN_ICON_ID = "red-pin-icon-id";
-
 
     public boolean flag = true;
     private ImageView imageView;
@@ -207,7 +191,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         floatingSetCamera = getActivity().findViewById(R.id.floatingSetCamera);
         imageView = getActivity().findViewById(R.id.trafficLabel);
 
-
         drivingButton.setVisibility(View.INVISIBLE);
         walkingButton.setVisibility(View.INVISIBLE);
         cyclingButton.setVisibility(View.INVISIBLE);
@@ -218,7 +201,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         mapView.onSaveInstanceState(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
-
 
         searchBar.setFocusable(false);
         searchBar.setOnClickListener(new View.OnClickListener() {
@@ -286,14 +268,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             }
 
         });
-
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     //Opening of Map
@@ -304,7 +283,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         map.setMinZoomPreference(3);
         map.setMaxZoomPreference(20);
         PlaceAutocomplete.clearRecentHistory(mContext);
-
             mapboxMap.setStyle(Style.MAPBOX_STREETS,
                     new Style.OnStyleLoaded() {
                         @Override
@@ -376,7 +354,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                                 }
                             });
 
-
                             style.addImage(("marker_icon"), BitmapFactory.decodeResource(
                                     getResources(), R.drawable.marker_icon));
 
@@ -389,9 +366,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                                             iconOffset(new Float[] {0f, -9f})));
                         }
                     });
-
-
-
 
         geoJsonSource = new GeoJsonSource("source-id",
                 Feature.fromGeometry(Point.fromLngLat(currentPosition.getLongitude(),
@@ -416,11 +390,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                 @Override
                 public void onStyleLoaded(@NonNull Style style) {
 
-// Retrieve and update the source designated for showing the directions route
+                    // Retrieve and update the source designated for showing the directions route
                     GeoJsonSource routeLineSource = style.getSourceAs(ROUTE_SOURCE_ID);
 
-// Create a LineString with the directions route's geometry and
-// reset the GeoJSON source for the route LineLayer source
+                    // Create a LineString with the directions route's geometry and
+                    // reset the GeoJSON source for the route LineLayer source
                     if (routeLineSource != null) {
                         switch (lastSelectedDirectionsProfile) {
                             case DirectionsCriteria.PROFILE_DRIVING:
@@ -444,7 +418,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         }
     }
 
-
     /**
      * Make a request to the Mapbox Directions API. Once successful, pass the route to the
      * route layer.
@@ -463,7 +436,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -526,8 +499,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             }
         });
     }
-
-
 
     /**
      * Set up the click listeners on the buttons for each Directions API profile.
@@ -593,7 +564,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
                 // Feature.fromGeometry(Point.fromLngLat(originPosition.longitude(), originPosition.latitude())),
                 Feature.fromGeometry(Point.fromLngLat(latLng.longitude(), latLng.latitude()))}));
-
     }
 
     /**
@@ -602,7 +572,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     private void initLayers(@NonNull Style loadedMapStyle) {
         routeLayer = new LineLayer(ROUTE_LAYER_ID, ROUTE_SOURCE_ID);
 
-// Add the LineLayer to the map. This layer will display the directions route.
+        // Add the LineLayer to the map. This layer will display the directions route.
         routeLayer.setProperties(
                 lineCap(Property.LINE_CAP_ROUND),
                 lineJoin(Property.LINE_JOIN_ROUND),
@@ -611,12 +581,11 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                         "#0473ad"))
         );
         loadedMapStyle.addLayer(routeLayer);
-// Add the red marker icon image to the map
+        // Add the red marker icon image to the map
         loadedMapStyle.addImage(RED_PIN_ICON_ID, BitmapUtils.getBitmapFromDrawable(
                 getResources().getDrawable(R.drawable.marker_icon)));
 
-
-// Add the red marker icon SymbolLayer to the map
+        // Add the red marker icon SymbolLayer to the map
         loadedMapStyle.addSource(iconGeoJsonSource);
         loadedMapStyle.addLayer(new SymbolLayer(ICON_LAYER_ID, ICON_SOURCE_ID).withProperties(
                 iconImage(RED_PIN_ICON_ID),
@@ -625,15 +594,12 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                 iconOffset(new Float[] {0f, -9f})));
     }
 
-
-
-    //Para ito sa Intent Builder ng Search
+    // Intent Builder of Search
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
             CarmenFeature feature = PlaceAutocomplete.getPlace(data);
-
 
             searchBar.setText(feature.placeName());
             if (map != null) {
@@ -687,7 +653,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     //Location Component
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -701,7 +667,7 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -709,21 +675,19 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
-
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
-
 
         } else {
             permissionsManager = new PermissionsManager(this);
@@ -746,9 +710,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         locationEngine.getLastLocation(callback);
 
     }
-
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -781,8 +742,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     public void onStart() {
         super.onStart();
         mapView.onStart();
-
-
     }
 
     @Override
@@ -795,7 +754,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     @SuppressLint("MissingPermission")
     public void onPause() {
         super.onPause();
-
         mapView.onPause();
     }
 
@@ -803,7 +761,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     @SuppressLint("MissingPermission")
     public void onStop() {
         super.onStop();
-
         mapView.onStop();
     }
 
@@ -823,8 +780,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
     public void onDestroy() {
         super.onDestroy();
     }
-
-
 
     @Override
     public boolean onMapLongClick(@NonNull LatLng point) {
@@ -863,9 +818,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
         return true;
     }
 
-
-
-
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener =
             new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -888,9 +840,6 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
             return latLng;
         }
     };
-
-
-
 
     private static class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
@@ -916,27 +865,20 @@ public class FragmentMap extends Fragment implements OnMapReadyCallback, Permiss
                 if (location == null) {
                     return;
                 }
+            }
 
-// Pass the new location to the Maps SDK's LocationComponent
+            if (activity != null) {
+                activity.myLocation = result.getLastLocation();
+                activity.mylocationlatlng = new LatLng(result.getLastLocation().getLatitude(), result.getLastLocation().getLongitude());
+                if (activity.myLocation == null) {
+                    return;
+                }
+
                 if (activity.map != null && result.getLastLocation() != null) {
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
-
-//                if (activity != null) {
-//                    activity.myLocation = result.getLastLocation();
-//                    activity.mylocationlatlng = new LatLng(result.getLastLocation().getLatitude(), result.getLastLocation().getLongitude());
-//                    if (activity.myLocation == null) {
-//                        activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
-//                    }
-//
-//                if (activity.map != null && result.getLastLocation() != null) {
-//                    activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
-//                }
-//            }
-
         }
-
 
         /**
          * The LocationEngineCallback interface's method which fires when the device's location can't be captured

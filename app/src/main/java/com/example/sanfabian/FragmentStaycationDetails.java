@@ -15,11 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.codesgood.views.JustifiedTextView;
 import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
@@ -51,18 +49,15 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -97,7 +92,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
     private LatLng sample;
-    private String _imageurl, _title, _collection, _id, _description, _photo1, _photo2, _photo3, collectionName, documentID, _amenities;
+    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _amenities;
     Double _rating, _nrate, _fnate;
 
     @Override
@@ -141,7 +136,6 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
         ArrayList<Transaction> photos = (ArrayList<Transaction>) bundle.getSerializable("PHOTOS");
-
 
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
@@ -240,17 +234,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
                 iconAllowOverlap(true),
                 iconIgnorePlacement(true),
                 iconOffset(new Float[] {0f, -7f})
-
         ));
-
-        System.out.println(origin);
-
-//        map.getStyle(new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                getRoute(driving, map, origin, destination);
-//            }
-//        });
 
         getDirection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -271,9 +255,10 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
         });
     }
 
+    //Location Component
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -287,7 +272,7 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -295,25 +280,24 @@ public class FragmentStaycationDetails extends Fragment implements OnMapReadyCal
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
-
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
 
 
         } else {
-//            permissionsManager = new PermissionsManager(this);
-//            permissionsManager.requestLocationPermissions(getActivity());
+            // permissionsManager = new PermissionsManager(this);
+            // permissionsManager.requestLocationPermissions(getActivity());
         }
     }
 

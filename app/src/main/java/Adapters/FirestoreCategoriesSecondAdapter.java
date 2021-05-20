@@ -66,7 +66,7 @@ public class FirestoreCategoriesSecondAdapter extends FirestorePagingAdapter<Cat
                 Log.d("PAGING_LOG", "ERROR");
                 break;
             case LOADED:
-                Log.d("PAGING_LOG", "Totol Items Loaded" + getItemCount());
+                Log.d("PAGING_LOG", "Total Items Loaded" + getItemCount());
                 break;
         }
     }

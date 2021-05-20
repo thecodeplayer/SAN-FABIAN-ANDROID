@@ -1,55 +1,39 @@
 package Categories;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sanfabian.FragmentBarangayDetails;
-import com.example.sanfabian.FragmentDetails;
-import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
-import com.firebase.ui.firestore.SnapshotParser;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-
 import java.util.ArrayList;
-
 import Adapters.FirestoreAdapter;
-import Adapters.FirestoreCategoriesAdapter;
 import Interface.FirestoreViewPagerInterface;
-import Models.BarangayModel;
-import Models.CategoriesPagerModel;
 import Models.RecyclerViewDataModel;
+
+import static java.lang.Float.isNaN;
 
 public class FragmentBarangays extends Fragment implements FirestoreViewPagerInterface {
 
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<RecyclerViewDataModel> dataholder;
-    private View banks_items;
+    private View barangays;
     private FirestoreAdapter adapter;
 
     @Override
@@ -60,8 +44,8 @@ public class FragmentBarangays extends Fragment implements FirestoreViewPagerInt
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        banks_items = inflater.inflate(R.layout.fragment_barangays, container, false);
-        recyclerView = banks_items.findViewById(R.id.recyclerViewBanks);
+        barangays = inflater.inflate(R.layout.fragment_barangays, container, false);
+        recyclerView = barangays.findViewById(R.id.recyclerViewBanks);
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -80,12 +64,11 @@ public class FragmentBarangays extends Fragment implements FirestoreViewPagerInt
         adapter = new FirestoreAdapter(options, this);
 
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        return banks_items;
+        return barangays;
     }
 
     @Override
@@ -118,7 +101,7 @@ public class FragmentBarangays extends Fragment implements FirestoreViewPagerInt
 
         FragmentBarangayDetails details = new FragmentBarangayDetails();
         details.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
     }
 
     @Override

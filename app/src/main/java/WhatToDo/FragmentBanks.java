@@ -1,24 +1,10 @@
 package WhatToDo;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -26,39 +12,19 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.sanfabian.FragmentDetails;
 import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
-
 import static java.lang.Float.isNaN;
-
 
 public class FragmentBanks extends Fragment implements FirestoreViewPagerInterface{
 
@@ -68,7 +34,6 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
     private View banks_items;
     private FirestoreAdapter adapter;
     Context context;
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,7 +75,6 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
         return banks_items;
     }
 
-
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
@@ -140,7 +104,7 @@ public class FragmentBanks extends Fragment implements FirestoreViewPagerInterfa
         bundle.putDouble("LONGITUDE", lng);
         FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
     }
 
     @Override

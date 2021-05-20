@@ -9,8 +9,9 @@ public class DictionaryModel {
     private String pangasinan_word;
     private String english_example;
     private String pangasinan_example;
+    private String filipino_example;
 
-    public DictionaryModel(String id, String word, String classification, String pilipino_word, String pangasinan_word, String english_example, String pangasinan_example) {
+    public DictionaryModel(String id, String word, String classification, String pilipino_word, String pangasinan_word, String english_example, String pangasinan_example, String filipino_example) {
         this.id = id;
         this.word = word;
         this.classification = classification;
@@ -18,6 +19,7 @@ public class DictionaryModel {
         this.pangasinan_word = pangasinan_word;
         this.english_example = english_example;
         this.pangasinan_example = pangasinan_example;
+        this.filipino_example = filipino_example;
     }
 
     public String getId() {
@@ -74,6 +76,14 @@ public class DictionaryModel {
 
     public void setPangasinan_example(String pangasinan_example) {
         this.pangasinan_example = pangasinan_example;
+    }
+
+    public String getFilipino_example() {
+        return filipino_example;
+    }
+
+    public void setFilipino_example(String tagalog_example) {
+        this.filipino_example = tagalog_example;
     }
 
 }

@@ -68,6 +68,7 @@ public class FragmentAboutUs extends Fragment {
                         "http://www.bantayog.org/galacae-arthur-erfe/galace-arthur-pic1/\n" +
                         "https://thepangasinannomad.wordpress.com/2019/07/25/hobbit-farmville-san-fabian-pangasinan/\n" +
                         "https://punch.dagupan.com/news/2020/03/bikers-lane-a-boon-to-sports-tourism-in-san-fabian/\n" +
+                        "https://pixabay.com/photos/gravel-stone-kennedy-beach-4927993/\n" +
                 "blogspot.com\n" +
                 "angsarap.net\n" +
                 "philatlas.com\n");

@@ -1,7 +1,5 @@
 package Models;
 
-import android.widget.TextView;
-
 public class DictionaryItem {
 
     String dictionary_item;

@@ -5,12 +5,10 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import Categories.FragmentCategories;
 import WhatToDo.FragmentWhatToDo;
 
@@ -22,7 +20,6 @@ public class FragmentHome extends Fragment implements BottomNavigationView.OnNav
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_home, container, false);
-
     }
 
     @Override
@@ -30,9 +27,8 @@ public class FragmentHome extends Fragment implements BottomNavigationView.OnNav
         super.onViewCreated(view, savedInstanceState);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-        getFragmentManager().beginTransaction().replace(R.id.container, new FragmentWhatToDo()).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentWhatToDo()).commit();
         bottomNavigationView.setSelectedItemId(R.id.nav_what_to_do);
-
     }
 
     @Override
@@ -49,7 +45,7 @@ public class FragmentHome extends Fragment implements BottomNavigationView.OnNav
                 selectFragment = new FragmentDictionary();
                 break;
         }
-        getFragmentManager().beginTransaction().replace(R.id.container, selectFragment).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, selectFragment).addToBackStack(null).commit();
         return true;
     }
 

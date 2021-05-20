@@ -9,8 +9,6 @@ public class SliderItem {
         this.imageUrl = imageUrl;
     }
 
-
-
     public String getImageUrl() {
 
         return imageUrl;

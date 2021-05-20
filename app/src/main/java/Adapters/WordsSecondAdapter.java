@@ -4,14 +4,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sanfabian.R;
-
 import java.util.List;
-
 import Models.DictionarySecondModel;
 
 public class WordsSecondAdapter extends RecyclerView.Adapter<WordsSecondAdapter.ViewHolder> {
@@ -34,6 +30,7 @@ public class WordsSecondAdapter extends RecyclerView.Adapter<WordsSecondAdapter.
 
         holder.english.setText(dictionarySecondModelList.get(position).getEnglish_phrase());
         holder.pangasinan.setText(dictionarySecondModelList.get(position).getPangasinan_phrase());
+        holder.tagalog.setText(dictionarySecondModelList.get(position).getFilipino_phrase());
 
     }
 
@@ -45,12 +42,13 @@ public class WordsSecondAdapter extends RecyclerView.Adapter<WordsSecondAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView english, pangasinan;
+        public TextView english, pangasinan, tagalog;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             english = itemView.findViewById(R.id.englishPhrase);
             pangasinan = itemView.findViewById(R.id.pangasinanPhrase);
+            tagalog = itemView.findViewById(R.id.filipinoPhrase);
 
         }
     }

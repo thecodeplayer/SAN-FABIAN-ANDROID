@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -12,6 +11,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sanfabian.FragmentDetails;
 import com.example.sanfabian.R;
@@ -21,9 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
-
 import java.util.ArrayList;
-
 import Adapters.FirestoreAdapter;
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
@@ -65,7 +63,6 @@ public class FragmentOutdoorsandActivities extends Fragment implements Firestore
         adapter = new FirestoreAdapter(options, this);
 
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -103,7 +100,7 @@ public class FragmentOutdoorsandActivities extends Fragment implements Firestore
         bundle.putSerializable("PHOTOS", photos);
         FragmentDetails details = new FragmentDetails();
         details.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
 
     }
 
@@ -119,20 +116,4 @@ public class FragmentOutdoorsandActivities extends Fragment implements Firestore
         adapter.stopListening();
     }
 
-//    layoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(layoutManager);
-//
-//    dataholder = new ArrayList<>();
-//    RecyclerViewDataModel inmalog_bike_trail = new RecyclerViewDataModel(R.drawable.bike_trail, "Inmalog Bike Trail", "Mabilao-Inmalog Sur Road, San Fabian, Pangasinan", 16.159538622523716, 120.44567069747877, "A 13 kilometer stretch of ascending and descending trails which crisscross four villages: Barangay Inmalog Sur, Inmalog Norte, Bolaoen, and Lipit-tomeeng, are for adventurers and amateurs. \n" +
-//            "The trail will lead you to:\n" +
-//            "Biker's Den - Inmalog Sur\n" +
-//            "Highlands Cafe in the Sky \n" +
-//            "Susong Dalaga (maiden's breasts) - Bolaoen, one of the attractions in San Fabian.\n");
-//        dataholder.add(inmalog_bike_trail);
-//    RecyclerViewDataModel mangrove = new RecyclerViewDataModel(R.drawable.san_fabian_mangroove, "Mangrove", "San Fabian", 16.1419, 120.4473, "It is a 10-hectare mangrove plantation located in Bakawan River that was taken care of by the Lupang Pangako Association. You can help the locals in harvesting and planting mangrove. You can visit the official page of Tourism San Fabian for more info on mangroves plantation.\nhttps://www.facebook.com/SanFabianTourism/posts");
-//        dataholder.add(mangrove);
-//    RecyclerViewDataModel san_fabian_beach = new RecyclerViewDataModel(R.drawable.san_fabian_beach, "San Fabian Beach", "San Fabian, Pangasinan", 16.132293627138562, 120.40049054817221, "You can watch the sunset while relaxing in the sound of the waves and sight seeing the mountain of Cordillera. It offers different activities like riding on a banana boat/boat, swimming, etc., as well as resorts located along the beach if you want to stay overnight. You can rent a cottage and a videoke that is perfect for family and/or friends bonding.");
-//        dataholder.add(san_fabian_beach);
-//
-//        recyclerView.setAdapter(new WhatExcitesYouItemRecyclerViewAdapter(dataholder, this));
 }

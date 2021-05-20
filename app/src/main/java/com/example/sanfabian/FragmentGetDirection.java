@@ -17,14 +17,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -56,38 +52,29 @@ import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
 import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.model.PlaceOptions;
 import com.mapbox.mapboxsdk.plugins.traffic.TrafficPlugin;
 import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.Property;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.mapbox.mapboxsdk.utils.BitmapUtils;
-import com.mapbox.navigation.core.MapboxNavigation;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.core.constants.Constants.PRECISION_6;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconOffset;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconSize;
-import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconTextFit;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineCap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineColor;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineJoin;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.lineWidth;
-
 
 public class FragmentGetDirection extends Fragment implements OnMapReadyCallback, PermissionsListener{
 
@@ -98,10 +85,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private Context mContext;
     private MapView mapView;
     private MapboxMap map;
-    MapboxNavigation navigation;
     private int c=0;
-    private double distance;
-    private String st;
     private String startLocation = "";
     private String destinationLocation = "";
     private LatLng mylocationlatlng;
@@ -109,11 +93,8 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     double _latitude, _longitude, latitudeOrigin, longtitudeOrigin;
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private Bundle bundle;
-    private String profile;
 
     private LocationEngine locationEngine;
-    private CarmenFeature home;
-    private CarmenFeature work;
     private String geojsonSourceLayerId = "geojsonSourceLayerId";
     private String symbolIconId = "symbolIconId";
     private LocationChangeListeningActivityLocationCallback callback =
@@ -134,7 +115,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private DirectionsRoute drivingRoute;
     private DirectionsRoute walkingRoute;
     private DirectionsRoute cyclingRoute;
-    private DirectionsRoute currentRoute;
     private MapboxDirections client;
 
     private String lastSelectedDirectionsProfile = DirectionsCriteria.PROFILE_DEFAULT_USER;
@@ -156,11 +136,8 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private static final String ICON_SOURCE_ID = "icon-source-id";
     private static final String RED_PIN_ICON_ID = "red-pin-icon-id";
 
-
-    public boolean flag = true;
     private ImageView imageView;
     private BuildingPlugin buildingPlugin;
-
     private View get_direction;
 
     public static FragmentGetDirection newInstance() {
@@ -176,7 +153,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         this.mContext = context;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -189,7 +165,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -206,7 +181,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         floatingTraffic = getActivity().findViewById(R.id.floatingTraffic);
         floatingSetCamera = getActivity().findViewById(R.id.floatingSetCamera);
         imageView = getActivity().findViewById(R.id.trafficLabel);
-
 
         drivingButton.setVisibility(View.INVISIBLE);
         walkingButton.setVisibility(View.INVISIBLE);
@@ -234,9 +208,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
 
                     }
                 });
-
             }
-
         });
 
 
@@ -246,17 +218,14 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                 helperClass.setCameraPosition(mylocationlatlng, map);
             }
         });
-
-
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
-    //Pagkabukas ng Map
+    //Opening of Map
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         bundle = this.getArguments();
@@ -303,14 +272,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                             }
                         });
 
-                        //ITO NADAGDAG
-
                         initMarkerIconSymbolLayer(style, orgLatlng,latlng_details);
-
-
-//                          style.addImage(MARKER_RESTO_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_resto));
-//                          style.addImage(MARKER_BANK_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_bank));
-//                          style.addImage(MARKER_TOURISTSPOT_ID, BitmapFactory.decodeResource(getResources(), R.drawable.marker_tourist));
                         style.addImage(("marker_icon"), BitmapFactory.decodeResource(
                                 getResources(), R.drawable.marker_icon));
 
@@ -331,13 +293,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                         latlng_details.getLatitude())));
     }
 
-//    private void getAllRoutes(boolean fromMapClick) {
-//        for (String profile : profiles) {
-//            getSingleRoute(profile, fromMapClick);
-//        }
-//
-//    }
-
     /**
      * Display the Directions API route line depending on which profile was last
      * selected.
@@ -348,11 +303,11 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                 @Override
                 public void onStyleLoaded(@NonNull Style style) {
 
-// Retrieve and update the source designated for showing the directions route
+                    // Retrieve and update the source designated for showing the directions route
                     GeoJsonSource routeLineSource = style.getSourceAs(ROUTE_SOURCE_ID);
 
-// Create a LineString with the directions route's geometry and
-// reset the GeoJSON source for the route LineLayer source
+                    // Create a LineString with the directions route's geometry and
+                    // reset the GeoJSON source for the route LineLayer source
                     if (routeLineSource != null) {
                         switch (lastSelectedDirectionsProfile) {
                             case DirectionsCriteria.PROFILE_DRIVING:
@@ -376,7 +331,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         }
     }
 
-
     /**
      * Make a request to the Mapbox Directions API. Once successful, pass the route to the
      * route layer.
@@ -395,7 +349,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -444,7 +398,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                     default:
                         break;
                 }
-
             }
 
             @Override
@@ -456,8 +409,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
             }
         });
     }
-
-
 
     /**
      * Set up the click listeners on the buttons for each Directions API profile.
@@ -513,7 +464,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         });
     }
 
-
     /**
      * Add the route and marker sources to the map
      */
@@ -523,7 +473,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         iconGeoJsonSource = new GeoJsonSource(ICON_SOURCE_ID, FeatureCollection.fromFeatures(new Feature[] {
                 // Feature.fromGeometry(Point.fromLngLat(originPosition.longitude(), originPosition.latitude())),
                 Feature.fromGeometry(Point.fromLngLat(latLng.longitude(), latLng.latitude()))}));
-
     }
 
     /**
@@ -532,7 +481,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     private void initLayers(@NonNull Style loadedMapStyle) {
         routeLayer = new LineLayer(ROUTE_LAYER_ID, ROUTE_SOURCE_ID);
 
-// Add the LineLayer to the map. This layer will display the directions route.
+        // Add the LineLayer to the map. This layer will display the directions route.
         routeLayer.setProperties(
                 lineCap(Property.LINE_CAP_ROUND),
                 lineJoin(Property.LINE_JOIN_ROUND),
@@ -540,11 +489,10 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                 lineColor(Color.parseColor("#0473ad"))
         );
         loadedMapStyle.addLayer(routeLayer);
-// Add the red marker icon image to the map
+        // Add the red marker icon image to the map
         loadedMapStyle.addImage(RED_PIN_ICON_ID, BitmapUtils.getBitmapFromDrawable(getResources().getDrawable(R.drawable.marker_icon)));
 
-
-// Add the red marker icon SymbolLayer to the map
+        // Add the red marker icon SymbolLayer to the map
         loadedMapStyle.addSource(iconGeoJsonSource);
         loadedMapStyle.addLayer(new SymbolLayer(ICON_LAYER_ID, ICON_SOURCE_ID).withProperties(
                 iconImage(RED_PIN_ICON_ID),
@@ -553,15 +501,12 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                 iconOffset(new Float[] {0f, -9f})));
     }
 
-
-
-    //Para ito sa Intent Builder ng Search
+    //Intent Builder of Search
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_AUTOCOMPLETE) {
             CarmenFeature feature = PlaceAutocomplete.getPlace(data);
-
 
             if (map != null) {
                 Style style = map.getStyle();
@@ -595,7 +540,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                         @Override
                         public void onStyleLoaded(@NonNull Style style) {
                             moveDestinationMarkerToNewLocation(point);
-//                            getAllRoutes(true);
                             initButtonClickListeners();
                             initSource(style, destinationPosition);
                             initLayers(style);
@@ -612,7 +556,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     //Location Component
     @SuppressWarnings({"MissingPermission"})
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -626,7 +570,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -634,21 +578,18 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
-
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
-
             initLocationEngine();
-
 
         } else {
             permissionsManager = new PermissionsManager(this);
@@ -672,15 +613,11 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
 
     }
 
-
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
 
     @Override
     public void onExplanationNeeded(List<String> permissionsToExplain) {
@@ -746,14 +683,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if(locationEngine != null){
-//            locationEngine.deactivate();
-//        }
-//        mapView.onDestroy();
     }
-
-
-
 
     private final ValueAnimator.AnimatorUpdateListener animatorUpdateListener =
             new ValueAnimator.AnimatorUpdateListener() {
@@ -778,15 +708,10 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         }
     };
 
-
-
-
     private static class LocationChangeListeningActivityLocationCallback
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<FragmentGetDirection> activityWeakReference;
-
-
 
         LocationChangeListeningActivityLocationCallback(FragmentGetDirection activity) {
             this.activityWeakReference = new WeakReference<>(activity);
@@ -814,7 +739,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
             }
         }
 
-
         /**
          * The LocationEngineCallback interface's method which fires when the device's location can't be captured
          *
@@ -832,12 +756,11 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
 
     private void initMarkerIconSymbolLayer(@NonNull Style loadedMapStyle, LatLng org, LatLng des) {
         // Add the marker image to map
-
         originPosition = Point.fromLngLat(org.getLongitude(), org.getLatitude());
-        //Dito ipapasa
+
         destinationPosition = Point.fromLngLat(des.getLatitude(), des.getLongitude());
         currentPosition = des;
-//        Point latlng_details_point = Point.fromLngLat(_longitude,_latitude);
+
         helperClass.setCameraPosition(org, map);
 
         map.getStyle(new Style.OnStyleLoaded() {
@@ -871,7 +794,7 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -892,7 +815,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                         String btnText = formatedTime+"\n"+kms;
                         drivingButton.setText(btnText);
                         if (!firstRouteDrawn) {
-                            //showRouteLine();
                             firstRouteDrawn = true;
                         }
                         break;
@@ -920,7 +842,6 @@ public class FragmentGetDirection extends Fragment implements OnMapReadyCallback
                     default:
                         break;
                 }
-
             }
 
             @Override

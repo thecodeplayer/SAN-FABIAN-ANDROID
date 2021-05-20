@@ -16,11 +16,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.codesgood.views.JustifiedTextView;
 import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
@@ -52,19 +50,16 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
-
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -83,7 +78,7 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
     private MapboxDirections client;
 
     LinearLayout attractions_layout, products_layout;
-    TextView title, rate, rating, nRate, hotline;
+    TextView title, hotline;
     JustifiedTextView description;
     ImageView barangay_photo;
     String driving = DirectionsCriteria.PROFILE_DRIVING;
@@ -92,20 +87,14 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
     // latOrigin at lngOrig
     Double _latitude, _longtitude, latitudeOrigin, longtitudeOrigin;
     Point origin, destination;
-    private String _imageurl, _title, _collection, _id, _description, collectionName, documentID, _hotline;
-    Double _rating, _nrate, _fnate;
+    private String _imageurl, _title, _collection, _id, _description, _hotline;
 
-    private RatingBar ratingBar;
-
-    //Bago
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
-    //Bago
-
     LatLng sample;
 
     @Override
@@ -126,13 +115,9 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         details = inflater.inflate(R.layout.barangay_details_layout, container, false);
 
         title = details.findViewById(R.id.title);
-        rate = details.findViewById(R.id._rate);
-        nRate = details.findViewById(R.id._nRate);
         description = details.findViewById(R.id.description);
         hotline = details.findViewById(R.id.hotline);
         getDirection = details.findViewById(R.id.buttonGetDirection);
-        ratingBar = details.findViewById(R.id.rating_bar);
-        rating = details.findViewById(R.id.rating);
         barangay_photo = details.findViewById(R.id.barangay_photo);
         attractions_layout = details.findViewById(R.id.attractions_layout);
         products_layout = details.findViewById(R.id.products_layout);
@@ -145,9 +130,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         _description = bundle.getString("DESCRIPTION");
         _imageurl = bundle.getString("IMAGEURL");
         _hotline = bundle.getString("HOTLINE");
-        _rating = bundle.getDouble("RATING");
-        _nrate = bundle.getDouble("NRATE");
-        _fnate = bundle.getDouble("FRATING");
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
 
@@ -156,20 +138,12 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         ArrayList<Transaction> _products = (ArrayList<Transaction>) bundle.getSerializable("PRODUCTS");
         ArrayList<Transaction> _products_name = (ArrayList<Transaction>) bundle.getSerializable("PRODUCTS_NAME");
 
-        String final_rating = String.format("%.1f", _fnate);
-        Double finalRating = _rating / _nrate;
-        Float _finalRating = finalRating.floatValue();
-        rating.setText(final_rating);
-        ratingBar.setRating(_finalRating);
-        ratingBar.setIsIndicator(true);
         getDirection.setVisibility(View.INVISIBLE);
         loading_user_location.setVisibility(View.VISIBLE);
 
         title.setText(_title);
         description.setText(_description);
         hotline.setText(_hotline);
-        int noRating = _nrate.intValue();
-        nRate.setText("(" + noRating + " Ratings)");
         Picasso.get().load(_imageurl).into(barangay_photo);
 
         Layout(_attractions, _attractions_name, attractions_layout);
@@ -182,27 +156,7 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        rate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openDialog();
-            }
-        });
-
         return details;
-    }
-
-    public void openDialog() {
-        collectionName = _collection;
-        documentID = _id;
-
-        Bundle bundle = new Bundle();
-        bundle.putString("COLLECTION", collectionName);
-        bundle.putString("ID", documentID);
-
-        RatingDialog rating = new RatingDialog();
-        rating.setArguments(bundle);
-        rating.show(getFragmentManager(), "Rating Dialog");
     }
 
     public void Layout(ArrayList items, ArrayList item_names, LinearLayout layout){
@@ -264,14 +218,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
 
         ));
 
-
-//        map.getStyle(new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                getRoute(driving, map, origin, destination);
-//            }
-//        });
-
         getDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,20 +226,20 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
                 longtitudeOrigin = myLocation.getLongitude();
                 bundle.putDouble("LATITUDE", _latitude);
                 bundle.putDouble("LONGITUDE", _longtitude);
-                //Bago
+
                 bundle.putDouble("LATORG", latitudeOrigin);
                 bundle.putDouble("LNGORG", longtitudeOrigin);
-                //Bago
+
                 FragmentGetDirection map = new FragmentGetDirection();
                 map.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
             }
         });
     }
 
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -307,7 +253,7 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -315,25 +261,24 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
-
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
 
 
         } else {
-//            permissionsManager = new PermissionsManager(this);
-//            permissionsManager.requestLocationPermissions(getActivity());
+            // permissionsManager = new PermissionsManager(this);
+            // permissionsManager.requestLocationPermissions(getActivity());
         }
     }
 
@@ -354,9 +299,7 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
     }
 
     @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-
-    }
+    public void onExplanationNeeded(List<String> permissionsToExplain) { }
 
     @Override
     public void onPermissionResult(boolean granted) {
@@ -375,8 +318,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<FragmentBarangayDetails> activityWeakReference;
-
-
 
         LocationChangeListeningActivityLocationCallback(FragmentBarangayDetails activity) {
             this.activityWeakReference = new WeakReference<>(activity);
@@ -409,17 +350,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
-//            if (activity != null) {
-//                activity.myLocation = result.getLastLocation();
-//                activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
-//                if (activity.myLocation == null) {
-//                    return;
-//                }
-//
-//                if (activity.map != null && result.getLastLocation() != null) {
-//                    activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
-//                }
-//            }
         }
 
 
@@ -450,7 +380,7 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+        // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -472,7 +402,6 @@ public class FragmentBarangayDetails extends Fragment implements OnMapReadyCallb
                     default:
                         break;
                 }
-
             }
 
             @Override

@@ -2,8 +2,6 @@ package WhatToDo;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.Html;
@@ -13,20 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-
 import com.example.sanfabian.R;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
-
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -34,14 +28,11 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
-
 import Adapters.SliderAdapter;
 import Models.SliderItem;
 import Utilities.HelperClass;
-
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.ACCESS_NETWORK_STATE;
-import static android.Manifest.permission.INTERNET;
 
 public class FragmentWhatToDo extends Fragment{
 
@@ -104,63 +95,62 @@ public class FragmentWhatToDo extends Fragment{
         food_and_dining.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentFoodandDining()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentFoodandDining()).addToBackStack(null).commit();
             }
         });
         stays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentStaycations()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentStaycations()).addToBackStack(null).commit();
             }
         });
         transport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentTransport()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentTransport()).addToBackStack(null).commit();
             }
         });
         outdoors_and_activities.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentOutdoorsandActivities()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentOutdoorsandActivities()).addToBackStack(null).commit();
             }
         });
 
         banks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentBanks()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentBanks()).addToBackStack(null).commit();
             }
         });
 
         relaxation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentRelaxation()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentRelaxation()).addToBackStack(null).commit();
             }
         });
 
         gas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentGasStation()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentGasStation()).addToBackStack(null).commit();
             }
         });
 
         market.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentMarket()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentMarket()).addToBackStack(null).commit();
             }
         });
 
         money_converter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().replace(R.id.container, new FragmentConverter()).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentConverter()).addToBackStack(null).commit();
             }
         });
-
 
         getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -190,9 +180,6 @@ public class FragmentWhatToDo extends Fragment{
         } catch (Exception e){
 
         }
-
-
-
     }
 
     private String[] getJSONResponse() {
@@ -294,7 +281,5 @@ public class FragmentWhatToDo extends Fragment{
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_NETWORK_STATE}, 1);
         ActivityCompat.requestPermissions(getActivity(), new String[]{ACCESS_FINE_LOCATION}, 1);
     }
-
-
 
 }

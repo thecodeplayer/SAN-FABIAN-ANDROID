@@ -7,17 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingAdapter;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;
 import com.firebase.ui.firestore.paging.LoadingState;
 import com.squareup.picasso.Picasso;
-
-
 import Interface.FirestoreViewPagerInterface;
 import Models.RecyclerViewDataModel;
 
@@ -73,7 +69,7 @@ public class FirestoreAdapter extends FirestorePagingAdapter<RecyclerViewDataMod
                 Log.d("PAGING_LOG", "ERROR");
                 break;
             case LOADED:
-                Log.d("PAGING_LOG", "Totol Items Loaded" + getItemCount());
+                Log.d("PAGING_LOG", "Total Items Loaded" + getItemCount());
                 break;
         }
     }

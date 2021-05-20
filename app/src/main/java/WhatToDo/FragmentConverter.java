@@ -17,11 +17,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,10 +32,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,15 +41,14 @@ public class FragmentConverter extends Fragment {
 
     private View converter;
     private Context context;
-
     private EditText baseCurrency;
     private TextView resultCurrency, convertFrom, convertTo;
     private Button convert;
     private DatabaseReference Rootref;
     private ProgressBar load, submitLoad;
-    private Dialog fromDialog, toDialog;
+    private Dialog fromDialog;
     private ListView listView;
-    private String input, symbol1, symbol2;
+    private String input;
     ArrayAdapter<String> arrayAdapter1, arrayAdapter2;
 
     @Override
@@ -108,7 +103,6 @@ public class FragmentConverter extends Fragment {
                             list.add(finalString);
                         }
 
-
                         arrayAdapter1 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, list);
                         arrayAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         listView.setAdapter(arrayAdapter1);
@@ -116,9 +110,7 @@ public class FragmentConverter extends Fragment {
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
+                    public void onCancelled(@NonNull DatabaseError error) { }
                 });
 
                 editText.addTextChangedListener(new TextWatcher() {
@@ -143,13 +135,11 @@ public class FragmentConverter extends Fragment {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         convertFrom.setText(arrayAdapter1.getItem(i));
                         fromDialog.dismiss();
-
                     }
                 });
 
             }
         });
-
 
         convertTo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,7 +147,6 @@ public class FragmentConverter extends Fragment {
                 fromDialog = new Dialog(context);
                 fromDialog.setContentView(R.layout.from_spinner);
                 fromDialog.getWindow().setLayout(1050,1800);
-
                 fromDialog.show();
 
                 listView = fromDialog.findViewById(R.id.list_view);
@@ -177,7 +166,6 @@ public class FragmentConverter extends Fragment {
 
                             list.add(finalString);
                         }
-
 
                         arrayAdapter2 = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, list);
                         arrayAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -216,10 +204,8 @@ public class FragmentConverter extends Fragment {
 
                     }
                 });
-
             }
         });
-
 
         convert.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +227,6 @@ public class FragmentConverter extends Fragment {
         });
 
         return converter;
-
     }
 
     private void FetchData(String input, String real1, String real2) {
@@ -268,8 +253,6 @@ public class FragmentConverter extends Fragment {
                             e.printStackTrace();
                             submitLoad.setVisibility(View.GONE);
                         }
-
-
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -277,7 +260,6 @@ public class FragmentConverter extends Fragment {
                 Toast.makeText(context, "Error!", Toast.LENGTH_SHORT).show();
             }
         });
-
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
     }

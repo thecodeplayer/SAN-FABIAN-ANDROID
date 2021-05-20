@@ -14,11 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
 import com.mapbox.android.core.location.LocationEngineProvider;
@@ -48,17 +46,14 @@ import com.mapbox.mapboxsdk.maps.Style;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
-
 import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
 import Utilities.HelperClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -85,18 +80,14 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
     Point origin, destination;
     private String _imageurl, _title, _collection, _id, _description, collectionName, documentID;
     Double _rating, _nrate, _fnate;
-
     private RatingBar ratingBar;
 
-    //Bago
     private static final long DEFAULT_INTERVAL_IN_MILLISECONDS = 1000L;
     private static final long DEFAULT_MAX_WAIT_TIME = DEFAULT_INTERVAL_IN_MILLISECONDS * 5;
     private String ICON_GEOJSON_SOURCE_ID = "geojson_source_id";
     private LocationChangeListeningActivityLocationCallback callback =
             new LocationChangeListeningActivityLocationCallback(this);
     Location myLocation;
-    //Bago
-
     LatLng sample;
 
     @Override
@@ -115,7 +106,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         details = inflater.inflate(R.layout.details_layout2, container, false);
-
 
         title = details.findViewById(R.id.title);
         detailImg = details.findViewById(R.id.detail_image);
@@ -139,7 +129,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
         _latitude = bundle.getDouble("LATITUDE");
         _longtitude = bundle.getDouble("LONGITUDE");
 
-
         String final_rating = String.format("%.1f", _fnate);
         Double finalRating = _rating / _nrate;
         Float _finalRating = finalRating.floatValue();
@@ -154,7 +143,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
         description.setText(_description);
         int noRating = _nrate.intValue();
         nRate.setText("(" + noRating + " Ratings)");
-
 
         sample = new LatLng(_latitude, _longtitude);
         destination = Point.fromLngLat(sample.getLatitude(), sample.getLongitude());
@@ -224,14 +212,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
 
         ));
 
-
-//        map.getStyle(new Style.OnStyleLoaded() {
-//            @Override
-//            public void onStyleLoaded(@NonNull Style style) {
-//                getRoute(driving, map, origin, destination);
-//            }
-//        });
-
         getDirection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,20 +220,20 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
                 longtitudeOrigin = myLocation.getLongitude();
                 bundle.putDouble("LATITUDE", _latitude);
                 bundle.putDouble("LONGITUDE", _longtitude);
-                //Bago
+
                 bundle.putDouble("LATORG", latitudeOrigin);
                 bundle.putDouble("LNGORG", longtitudeOrigin);
-                //Bago
+
                 FragmentGetDirection map = new FragmentGetDirection();
                 map.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
             }
         });
     }
 
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -267,7 +247,7 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -275,25 +255,25 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
 
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
 
 
         } else {
-//            permissionsManager = new PermissionsManager(this);
-//            permissionsManager.requestLocationPermissions(getActivity());
+            // permissionsManager = new PermissionsManager(this);
+            // permissionsManager.requestLocationPermissions(getActivity());
         }
     }
 
@@ -314,9 +294,7 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
     }
 
     @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-
-    }
+    public void onExplanationNeeded(List<String> permissionsToExplain) { }
 
     @Override
     public void onPermissionResult(boolean granted) {
@@ -327,7 +305,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
                     enableLocationComponent(style);
                 }
             });
-
         }
     }
 
@@ -335,8 +312,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<FragmentDetails2> activityWeakReference;
-
-
 
         LocationChangeListeningActivityLocationCallback(FragmentDetails2 activity) {
             this.activityWeakReference = new WeakReference<>(activity);
@@ -369,19 +344,7 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
                     activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
                 }
             }
-//            if (activity != null) {
-//                activity.myLocation = result.getLastLocation();
-//                activity.origin = Point.fromLngLat(activity.myLocation.getLatitude(), activity.myLocation.getLongitude());
-//                if (activity.myLocation == null) {
-//                    return;
-//                }
-//
-//                if (activity.map != null && result.getLastLocation() != null) {
-//                    activity.map.getLocationComponent().forceLocationUpdate(result.getLastLocation());
-//                }
-//            }
         }
-
 
         /**
          * The LocationEngineCallback interface's method which fires when the device's location can't be captured
@@ -410,7 +373,7 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -432,7 +395,6 @@ public class FragmentDetails2 extends Fragment implements OnMapReadyCallback,  P
                     default:
                         break;
                 }
-
             }
 
             @Override

@@ -5,9 +5,6 @@ import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +15,12 @@ import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.solver.widgets.Helper;
 import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codesgood.views.JustifiedTextView;
-import com.google.android.material.internal.ParcelableSparseArray;
 import com.google.firebase.firestore.Transaction;
 import com.mapbox.android.core.location.LocationEngine;
 import com.mapbox.android.core.location.LocationEngineCallback;
@@ -53,28 +48,19 @@ import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
 import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.plugins.building.BuildingPlugin;
-import com.mapbox.mapboxsdk.plugins.places.autocomplete.PlaceAutocomplete;
-import com.mapbox.mapboxsdk.plugins.traffic.TrafficPlugin;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.squareup.picasso.Picasso;
-
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import Models.RecyclerViewDataModel;
 import Utilities.HelperClass;
-import WhatToDo.FragmentGasStation;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
-
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconAllowOverlap;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconIgnorePlacement;
 import static com.mapbox.mapboxsdk.style.layers.PropertyFactory.iconImage;
@@ -87,7 +73,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     private MapView mapView;
     MapboxMap map;
     private View details;
-    private String kms;
     private DirectionsRoute drivingRoute;
     HelperClass helperClass;
     private MapboxDirections client;
@@ -259,20 +244,20 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
                 longtitudeOrigin = myLocation.getLongitude();
                 bundle.putDouble("LATITUDE", _latitude);
                 bundle.putDouble("LONGITUDE", _longtitude);
-                //Bago
+
                 bundle.putDouble("LATORG", latitudeOrigin);
                 bundle.putDouble("LNGORG", longtitudeOrigin);
-                //Bago
+
                 FragmentGetDirection map = new FragmentGetDirection();
                 map.setArguments(bundle);
-                getFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, map).addToBackStack(null).commit();
             }
         });
     }
 
     @SuppressLint("MissingPermission")
     private void enableLocationComponent(@NonNull Style loadedMapStyle) {
-// Check if permissions are enabled and if not request
+        // Check if permissions are enabled and if not request
         if (PermissionsManager.areLocationPermissionsGranted(mContext)) {
 
             LocationComponentOptions customLocationComponentOptions = LocationComponentOptions.builder(mContext)
@@ -286,7 +271,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
             // Get an instance of the component
             LocationComponent locationComponent = map.getLocationComponent();
 
-// Set the LocationComponent activation options
+            // Set the LocationComponent activation options
             LocationComponentActivationOptions locationComponentActivationOptions =
                     LocationComponentActivationOptions.builder(mContext, loadedMapStyle)
                             .locationComponentOptions(customLocationComponentOptions)
@@ -294,25 +279,24 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
                             .useDefaultLocationEngine(false)
                             .build();
 
-// Activate with the LocationComponentActivationOptions object
+            // Activate with the LocationComponentActivationOptions object
             locationComponent.activateLocationComponent(locationComponentActivationOptions);
 
-// Enable to make component visible
+            // Enable to make component visible
             locationComponent.setLocationComponentEnabled(true);
 
 
-// Set the component's camera mode
+            // Set the component's camera mode
             locationComponent.setCameraMode(CameraMode.TRACKING_COMPASS);
 
-// Set the component's render mode
+            // Set the component's render mode
             locationComponent.setRenderMode(RenderMode.COMPASS);
 
             initLocationEngine();
 
-
         } else {
-//            permissionsManager = new PermissionsManager(this);
-//            permissionsManager.requestLocationPermissions(getActivity());
+        // permissionsManager = new PermissionsManager(this);
+        // permissionsManager.requestLocationPermissions(getActivity());
         }
     }
 
@@ -333,9 +317,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
     }
 
     @Override
-    public void onExplanationNeeded(List<String> permissionsToExplain) {
-
-    }
+    public void onExplanationNeeded(List<String> permissionsToExplain) { }
 
     @Override
     public void onPermissionResult(boolean granted) {
@@ -354,8 +336,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
             implements LocationEngineCallback<LocationEngineResult> {
 
         private final WeakReference<FragmentDetails> activityWeakReference;
-
-
 
         LocationChangeListeningActivityLocationCallback(FragmentDetails activity) {
             this.activityWeakReference = new WeakReference<>(activity);
@@ -390,7 +370,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
             }
         }
 
-
         /**
          * The LocationEngineCallback interface's method which fires when the device's location can't be captured
          *
@@ -418,7 +397,7 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
         client.enqueueCall(new Callback<DirectionsResponse>() {
             @Override
             public void onResponse(Call<DirectionsResponse> call, Response<DirectionsResponse> response) {
-// You can get the generic HTTP info about the response
+                // You can get the generic HTTP info about the response
                 Timber.d("Response code: " + response.code());
                 if (response.body() == null) {
                     Timber.e("No routes found, make sure you set the right user and access token.");
@@ -432,7 +411,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
                     case DirectionsCriteria.PROFILE_DRIVING:
                         drivingRoute = response.body().routes().get(0);
                         Double km =  Math.round(helperClass.convertMeters(drivingRoute.distance())*100.0)/100.0;
-                        kms = Double.toString(km)+"km";
                         String seconds =  String.valueOf(TimeUnit.SECONDS
                                 .toMinutes(drivingRoute.duration().longValue()));
                         String formatedTime = helperClass.convertMins(seconds);
@@ -440,7 +418,6 @@ public class FragmentDetails extends Fragment implements OnMapReadyCallback,  Pe
                     default:
                         break;
                 }
-
             }
 
             @Override

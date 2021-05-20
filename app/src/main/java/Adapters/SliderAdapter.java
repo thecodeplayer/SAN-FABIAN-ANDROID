@@ -6,15 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.example.sanfabian.R;
 import com.smarteist.autoimageslider.SliderViewAdapter;
-
-
 import java.util.ArrayList;
 import java.util.List;
-
 import Models.SliderItem;
 
 public class SliderAdapter extends SliderViewAdapter<SliderAdapter.SliderAdapterVH> {

@@ -13,6 +13,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sanfabian.FragmentDetails;
 import com.example.sanfabian.FragmentDetails2;
@@ -36,9 +37,7 @@ public class FragmentMarket extends Fragment implements FirestoreViewPagerInterf
     private FirebaseFirestore firebaseFirestore;
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<RecyclerViewDataModel> dataholder;
     private View market;
-    private LayoutInflater layoutInflater;
     private FirestoreAdapter adapter;
 
     @Override
@@ -68,14 +67,12 @@ public class FragmentMarket extends Fragment implements FirestoreViewPagerInterf
         adapter = new FirestoreAdapter(options, this);
 
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         return market;
     }
-
 
     @Override
     public void onItemClick(DocumentSnapshot snapshot, int position) {

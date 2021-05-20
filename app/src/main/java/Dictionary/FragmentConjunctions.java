@@ -6,23 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sanfabian.R;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-
 import Adapters.WordsAdapter;
 import Interface.RecyclerViewInterface;
 import Utilities.DatabaseHelper;
@@ -93,7 +88,6 @@ public class FragmentConjunctions extends Fragment implements RecyclerViewInterf
         recyclerView.setAdapter(wordsAdapter);
     }
 
-
     private boolean copyDatabase(Context context) {
         try {
             InputStream inputStream = context.getAssets().open(DatabaseHelper.DBNAME);
@@ -116,7 +110,6 @@ public class FragmentConjunctions extends Fragment implements RecyclerViewInterf
         }
     }
 
-
     @Override
     public void onItemClick(int position) {
         DictionaryModel dictionaryModel = dictionaryModelList.get(position);
@@ -128,8 +121,9 @@ public class FragmentConjunctions extends Fragment implements RecyclerViewInterf
         bundle.putString("PANGASINAN", dictionaryModel.getPangasinan_word());
         bundle.putString("ENGLISH_EXAMPLE", dictionaryModel.getEnglish_example());
         bundle.putString("PANGASINAN_EXAMPLE", dictionaryModel.getPangasinan_example());
+        bundle.putString("TAGALOG_EXAMPLE", dictionaryModel.getFilipino_example());
         FragmentDefinition definition = new FragmentDefinition();
         definition.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, definition).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, definition).addToBackStack(null).commit();
     }
 }

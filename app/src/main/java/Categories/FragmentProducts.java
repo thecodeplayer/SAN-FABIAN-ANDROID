@@ -5,16 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
@@ -23,12 +21,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
-
 import Adapters.FirestoreAdapter;
-import Adapters.FirestoreCategoriesAdapter;
 import Interface.FirestoreViewPagerInterface;
-import Models.CategoriesPagerModel;
 import Models.RecyclerViewDataModel;
+
+import static java.lang.Float.isNaN;
 
 public class FragmentProducts extends Fragment implements FirestoreViewPagerInterface {
 
@@ -73,7 +70,6 @@ public class FragmentProducts extends Fragment implements FirestoreViewPagerInte
         adapter = new FirestoreAdapter(options, this);
 
         recyclerView.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
@@ -85,20 +81,33 @@ public class FragmentProducts extends Fragment implements FirestoreViewPagerInte
     public void onItemClick(DocumentSnapshot snapshot, int position) {
         String title = snapshot.getString("title");
         String description = snapshot.getString("description");
+        String collection = "Products";
+        String id = snapshot.getId();
+        Double rating = snapshot.getDouble("rating");
+        Double nrate = snapshot.getDouble("nrate");
         String imgUrl = snapshot.getString("imageUrl");
         GeoPoint geoPoint = snapshot.getGeoPoint("latlng");
+
+        double finalRating = rating / nrate;
+        if (isNaN((float) finalRating)) finalRating = 0.0;
+
         double lat = geoPoint.getLatitude();
         double lng = geoPoint.getLongitude ();
 
         Bundle bundle = new Bundle();
         bundle.putString("TITLE", title);
         bundle.putString("IMAGEURL", imgUrl);
+        bundle.putString("ID", id);
+        bundle.putDouble("RATING", rating);
+        bundle.putDouble("NRATE", nrate);
+        bundle.putDouble("FRATING", finalRating);
+        bundle.putString("COLLECTION", collection);
         bundle.putString("DESCRIPTION", description);
         bundle.putDouble("LATITUDE", lat);
         bundle.putDouble("LONGITUDE", lng);
         FragmentDetails2 details = new FragmentDetails2();
         details.setArguments(bundle);
-        getFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.container, details).addToBackStack(null).commit();
     }
 
     @Override

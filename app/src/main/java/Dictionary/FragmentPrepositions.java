@@ -2,27 +2,21 @@ package Dictionary;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sanfabian.R;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-
 import Adapters.WordsSecondAdapter;
 import Models.DictionarySecondModel;
 import Utilities.DatabaseHelper;
@@ -52,7 +46,6 @@ public class FragmentPrepositions extends Fragment{
         }
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,7 +62,6 @@ public class FragmentPrepositions extends Fragment{
 
         return prepositions;
     }
-
 
     private boolean copyDatabase(Context context) {
         try {

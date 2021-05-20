@@ -5,18 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sanfabian.R;
-
 import java.util.ArrayList;
-
 import Adapters.CategoriesRecyclerViewAdapter;
 import Interface.RecyclerViewInterface;
 import Models.CategoryItem;
@@ -51,7 +47,6 @@ public class FragmentCategories extends Fragment implements RecyclerViewInterfac
         CategoryItem barangays = new CategoryItem(R.drawable.san_fabian_barangays);
         dataholder.add(barangays);
 
-
         recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(dataholder, this));
         return categories;
     }
@@ -65,22 +60,22 @@ public class FragmentCategories extends Fragment implements RecyclerViewInterfac
     @Override
     public void onItemClick(int position) {
         if (position == 0) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentProducts()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentProducts()).addToBackStack(null).commit();
         }
         else if (position == 1) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentTouristSpots()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentTouristSpots()).addToBackStack(null).commit();
         }
         else if (position == 2) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentPersonalities()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentPersonalities()).addToBackStack(null).commit();
         }
         else if (position == 3) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentHistory()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentHistory()).addToBackStack(null).commit();
         }
         else if (position == 4) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentFestivals()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentFestivals()).addToBackStack(null).commit();
         }
         else if (position == 5) {
-            getFragmentManager().beginTransaction().replace(R.id.container, new FragmentBarangays()).addToBackStack(null).commit();
+            getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentBarangays()).addToBackStack(null).commit();
         }
     }
 

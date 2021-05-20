@@ -67,7 +67,4 @@ public class HelperClass {
         return titleCase.toString();
     }
 
-
-
-
 }

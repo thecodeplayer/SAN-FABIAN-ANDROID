@@ -2,7 +2,6 @@ package Models;
 
 public class RecyclerViewDataModel {
 
-
     String imageUrl;
     String title;
     String subtitle;
@@ -11,7 +10,6 @@ public class RecyclerViewDataModel {
     double longitude;
 
     private RecyclerViewDataModel() {}
-
 
     public RecyclerViewDataModel(String imageUrl, String title, String subtitle, double latitude, double longitude, String description) {
         this.imageUrl = imageUrl;
@@ -61,6 +59,5 @@ public class RecyclerViewDataModel {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
-
 
 }
