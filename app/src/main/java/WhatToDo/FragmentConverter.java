@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.sanfabian.MainActivity;
 import com.example.sanfabian.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +43,7 @@ public class FragmentConverter extends Fragment {
     private View converter;
     private Context context;
     private EditText baseCurrency;
-    private TextView resultCurrency, convertFrom, convertTo;
+    private TextView resultCurrency, convertFrom, convertTo, fromCurrencySym, toCurrencySym;
     private Button convert;
     private DatabaseReference Rootref;
     private ProgressBar load, submitLoad;
@@ -74,6 +75,8 @@ public class FragmentConverter extends Fragment {
         convert = converter.findViewById(R.id.convertButton);
         load = converter.findViewById(R.id.load);
         submitLoad = converter.findViewById(R.id.submit_load);
+        fromCurrencySym = converter.findViewById(R.id.fromCurrencySym);
+        toCurrencySym = converter.findViewById(R.id.toCurrencySym);
 
         Rootref = FirebaseDatabase.getInstance().getReference();
 
@@ -134,6 +137,8 @@ public class FragmentConverter extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         convertFrom.setText(arrayAdapter1.getItem(i));
+                        String countryCode = arrayAdapter1.getItem(i);
+                        fromCurrencySym.setText(countryCode.substring(countryCode.length()-3));
                         fromDialog.dismiss();
                     }
                 });
@@ -200,6 +205,8 @@ public class FragmentConverter extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         convertTo.setText(arrayAdapter2.getItem(i));
+                        String countryCode = arrayAdapter2.getItem(i);
+                        toCurrencySym.setText(countryCode.substring(countryCode.length()-3));
                         fromDialog.dismiss();
 
                     }
@@ -214,13 +221,18 @@ public class FragmentConverter extends Fragment {
                 input = baseCurrency.getText().toString();
                 String s1 = convertFrom.getText().toString();
                 String s2 = convertTo.getText().toString();
-                String real1 = s1.substring(s1.length() - 3);
-                String real2 = s2.substring(s2.length() - 3);
 
 
-                if (TextUtils.isEmpty(input)) {
-                    Toast.makeText(context, "Enter some values!", Toast.LENGTH_SHORT).show();
-                } else {
+
+                if(convertFrom.getText().toString().isEmpty() || convertTo.getText().toString().isEmpty()){
+                    Toast.makeText(context, "Please Select a Country!", Toast.LENGTH_SHORT).show();
+                }
+                else if(TextUtils.isEmpty(input)) {
+                    Toast.makeText(context, "Please enter the amount!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    String real1 = s1.substring(s1.length() - 3);
+                    String real2 = s2.substring(s2.length() - 3);
                     FetchData(input, real1, real2);
                 }
             }
@@ -241,13 +253,16 @@ public class FragmentConverter extends Fragment {
                     public void onResponse(String response) {
                         // Display the first 500 characters of the response string.
                         // resultCurrency.setText("Response is: "+ response.substring(0,500));
-                        float i = Float.parseFloat(input);
+                        double i = Double.parseDouble(input);
 
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
-                            float string = Float.parseFloat(jsonObject.getString(real1 + "_" + real2));
-                            float res = string * i;
-                            resultCurrency.setText(String.valueOf(res));
+                            //Eto mga naging double
+                            double string = Float.parseFloat(jsonObject.getString(real1 + "_" + real2));
+                            double res = string * i;
+                            double roundOff = (double) Math.round(res * 100) / 100;
+                            resultCurrency.setText(String.valueOf(roundOff));
+                            //resultCurrency.setText(String.valueOf(String.format("%.2f",res)));
                             submitLoad.setVisibility(View.GONE);
                         } catch (JSONException e) {
                             e.printStackTrace();
