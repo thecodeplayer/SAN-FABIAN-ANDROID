@@ -51,7 +51,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'noun' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }
@@ -70,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'adjective' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }
@@ -89,7 +89,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'pronoun' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }
@@ -108,7 +108,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'conjunction' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }
@@ -127,7 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'verb' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }
@@ -147,7 +147,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = mDatabase.rawQuery("SELECT * FROM tbWord WHERE wordClassification = 'adverb' AND engWord LIKE ?", args);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7));
+            dictionaryModel = new DictionaryModel(cursor.getString(0), cursor.getString(1),cursor.getString(2), cursor.getString(3), cursor.getString(4), cursor.getString(5), cursor.getString(6), cursor.getString(7), cursor.getString(8), cursor.getString(9));
             dictionaryModelList.add(dictionaryModel);
             cursor.moveToNext();
         }

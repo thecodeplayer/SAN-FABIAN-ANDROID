@@ -16,14 +16,12 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
-import Adapters.WordsAdapter;
 import Adapters.WordsSecondAdapter;
 import Models.DictionarySecondModel;
 import Utilities.DatabaseHelper;
 
 public class FragmentPoliteGreetings extends Fragment {
     private RecyclerView recyclerView;
-    private WordsAdapter wordsAdapter;
     private List<DictionarySecondModel> dictionarySecondModelList;
     private DatabaseHelper mDBHelper;
     private View greetings;

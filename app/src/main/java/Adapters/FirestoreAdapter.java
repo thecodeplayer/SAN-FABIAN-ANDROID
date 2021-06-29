@@ -22,7 +22,6 @@ public class FirestoreAdapter extends FirestorePagingAdapter<RecyclerViewDataMod
 
     private FirestoreViewPagerInterface firestoreRecyclerViewInterface;
     private LayoutInflater layoutInflater;
-    private Context context;
 
     /**
      * Construct a new FirestorePagingAdapter from the given {@link FirestorePagingOptions}.

@@ -118,11 +118,13 @@ public class FragmentAdverbs extends Fragment implements RecyclerViewInterface {
 
         bundle.putString("WORD", dictionaryModel.getWord());
         bundle.putString("CLASSIFICATION", dictionaryModel.getClassification());
-        bundle.putString("PILIPINO", dictionaryModel.getPilipino_word());
+        bundle.putString("PILIPINO", dictionaryModel.getFilipino_word());
         bundle.putString("PANGASINAN", dictionaryModel.getPangasinan_word());
+        bundle.putString("ILOCANO", dictionaryModel.getIlocano_word());
         bundle.putString("ENGLISH_EXAMPLE", dictionaryModel.getEnglish_example());
         bundle.putString("PANGASINAN_EXAMPLE", dictionaryModel.getPangasinan_example());
         bundle.putString("TAGALOG_EXAMPLE", dictionaryModel.getFilipino_example());
+        bundle.putString("ILOCANO_EXAMPLE", dictionaryModel.getIlocano_example());
         FragmentDefinition definition = new FragmentDefinition();
         definition.setArguments(bundle);
         getParentFragmentManager().beginTransaction().replace(R.id.container, definition).addToBackStack(null).commit();

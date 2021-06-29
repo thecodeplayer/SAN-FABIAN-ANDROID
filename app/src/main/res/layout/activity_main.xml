@@ -61,7 +61,6 @@
         app:itemTextColor="@drawable/bot_nav_items"
         app:itemIconSize="30dp">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="30dp"

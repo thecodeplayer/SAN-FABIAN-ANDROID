@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/button_style.xml" value="0.1" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/gradient.xml" value="0.1" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/gradient1.xml" value="0.1" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/layout_bg.xml" value="0.2703125" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout-v26/details_layout.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/activity_main.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/barangay_details_layout.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/categories_row_item.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/category_layout.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/details_layout.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/details_layout4.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/dictionary_item.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/dictionary_layout.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/dictionary_second_item.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/dictionary_second_layout.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_aboutus.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_banks.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_barangays.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_categories.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_converter.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_definition.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_what_to_do.xml" value="0.17300724637681159" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/from_spinner.xml" value="0.24456521739130435" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

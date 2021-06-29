@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder> {
 
-
     RecyclerViewInterface recyclerViewInterface;
     ArrayList<CategoryItem> dataholder;
 
@@ -25,7 +24,6 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_layout,parent, false);
         ViewHolder viewHolder = new ViewHolder(view);

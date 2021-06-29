@@ -11,8 +11,6 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import com.example.sanfabian.FragmentDetails2;
 import com.example.sanfabian.R;
 import com.firebase.ui.firestore.paging.FirestorePagingOptions;

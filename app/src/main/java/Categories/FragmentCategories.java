@@ -20,10 +20,9 @@ import Models.CategoryItem;
 public class FragmentCategories extends Fragment implements RecyclerViewInterface {
 
     private RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
+    private RecyclerView.LayoutManager layoutManager;
     private View categories;
-    ArrayList<CategoryItem> dataholder;
-
+    private ArrayList<CategoryItem> dataholder;
 
     @Nullable
     @Override
@@ -78,7 +77,4 @@ public class FragmentCategories extends Fragment implements RecyclerViewInterfac
             getParentFragmentManager().beginTransaction().replace(R.id.container, new FragmentBarangays()).addToBackStack(null).commit();
         }
     }
-
-
-    
 }
