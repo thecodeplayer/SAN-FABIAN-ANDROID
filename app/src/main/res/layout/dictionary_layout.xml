@@ -10,8 +10,9 @@
         android:id="@+id/dictionary_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/dictionary_header1"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/dictionary_header1" />
 
     <LinearLayout
         android:layout_width="match_parent"

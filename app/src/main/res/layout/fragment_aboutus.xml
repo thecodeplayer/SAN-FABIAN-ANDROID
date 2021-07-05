@@ -21,9 +21,10 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="220dp"
-                android:src="@drawable/san_fabian1"/>
+                android:src="@drawable/san_fabian1"
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:layout_width="wrap_content"

@@ -9,6 +9,7 @@
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/gradient1.xml" value="0.1" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/drawable/layout_bg.xml" value="0.2703125" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout-v26/details_layout.xml" value="0.1793478260869565" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout-v28/recycler_view_items.xml" value="0.19972826086956522" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/activity_main.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/barangay_details_layout.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/categories_row_item.xml" value="0.24456521739130435" />
@@ -25,6 +26,9 @@
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_categories.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_converter.xml" value="0.24456521739130435" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_definition.xml" value="0.24456521739130435" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_dictionary.xml" value="0.19972826086956522" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_dictionary_item.xml" value="0.19972826086956522" />
+        <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_food_and_dining.xml" value="0.19972826086956522" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/fragment_what_to_do.xml" value="0.17300724637681159" />
         <entry key="..\:/Users/Jolo/SanFabian/app/src/main/res/layout/from_spinner.xml" value="0.24456521739130435" />
       </map>

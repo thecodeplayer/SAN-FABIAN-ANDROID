@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -261,7 +263,9 @@ public class FragmentConverter extends Fragment {
                             double string = Float.parseFloat(jsonObject.getString(real1 + "_" + real2));
                             double res = string * i;
                             double roundOff = (double) Math.round(res * 100) / 100;
-                            resultCurrency.setText(String.valueOf(roundOff));
+                            NumberFormat resultFormat = NumberFormat.getNumberInstance();
+                            resultFormat.setGroupingUsed(true);
+                            resultCurrency.setText(String.valueOf(resultFormat.format(roundOff)));
                             //resultCurrency.setText(String.valueOf(String.format("%.2f",res)));
                             submitLoad.setVisibility(View.GONE);
                         } catch (JSONException e) {
